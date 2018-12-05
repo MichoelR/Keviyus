@@ -1,0 +1,126 @@
+body {font-family:"Shlomo LB","Ezra SIL SR","EzraSILSRW","Ezra SIL","Keter YG","Keter Aram Tsova","Taamey David CLM","Taamey Frank CLM","SBL Hebrew",code2000,Cardo,"Guttman Vilna-Normal",Galaxie,"Frank Ruehl CLM","Arial Unicode MS";color:#000000;background-color:#FFFFFF;margin:1.5em;}
+
+/* use Ezra SIL SR - Regular in .woff format */
+@font-face {
+  font-family: EzraSILSRW;
+  src: url(SILEOTSR.woff);
+}
+
+body { overflow:hidden;
+}
+#parshacol {display: inline-block; height: 100%; width: 12%; overflow-y: auto; 
+border-right: solid; vertical-align:top;
+}
+.sidracnt {text-align: right;
+}
+.sidros {font-size: 200%; text-align: center; font-weight: bold;
+}
+.doublefirst {background-color: khaki;
+}
+.doublesecond {background-color: navajowhite;
+}
+.sidroshdr {text-decoration: underline;
+}
+.calendars {display: inline-block; height:100%; width:70%; overflow-y: auto;
+vertical-align: top; position:relative;
+}
+.calendarstbl { border-collapse: separate; border-spacing: 15px 0;
+}
+/*.calendarshdr .calendarshdrrow0{position:sticky; top:0; z-index:10;
+}*/
+.calendarshdrcell {	position:sticky; top:0; z-index:10; background-color:white;
+}
+.dayhdr {font-size: 250%;  top:70px;
+	border-bottom: 4px solid black;
+}
+.typehdr {text-align: center; font-size: 300%;
+}
+.typecol {display: inline-block; vertical-align: top; border-right: solid;
+border-width: 5px; border-color: green;
+}
+.oneday { border-style:solid; border-width: 1px 1px 0 1px; border-color: black; margin: 10px;
+	min-width:120px; height:100px; position:relative;
+}
+.edge { border-right-style: solid; border-right-width: 5px; border-right-color: green;
+	margin-right: 0px;
+}
+.leftedge { margin-left: 0px; border-style:solid; border-width:1px; border-color:black;
+}
+.month {height:1em; font-size: 150%; color: blue;
+	position:absolute; top:5px; right:-5px;
+}
+#buttons { display: inline-block; width: 15%; vertical-align:top;
+}
+#formatBtns {border-bottom: black solid 2px;
+}
+.relinebtn {font-size:120%; margin:0 0 20px 0;
+}
+.movehdr {font-size:120%; padding:10px 0 0 0; font-weight:bold;
+}
+.movebtn {font-size:120%; margin:20px 0 20px 0; display:block; width:70px;
+}
+.lockbtn {background-color:green; border:black solid 1px; display:inline-block;
+	margin:0; padding:10px; border-radius: 50%; margin-left:auto; margin-right:0;
+	transition-duration: 0.4s;
+}
+.lockbtn:hover {background-color: pink;
+}
+.unlockbtn {background-color:red; border:black solid 1px; display:inline-block;
+	margin:0; padding:10px; border-radius: 50%; margin-left:auto; margin-right:0;
+	transition-duration: 0.4s;
+}
+.unlockbtn:hover {background-color: lightgreen;
+}
+.btntype {height:1em; font-size: 150%; color: blue;
+}
+.typebutton {top:0; height: 3em; font-size: 120%;
+}
+.yomtov	{max-width:112px; font-size: 150%; color:brown; line-height:180%;
+	position:absolute; top:5px; left:5px; /* 112px just distinguishes between ר"ח חנוכה and ל"ג בעומר */
+}
+.parsha {text-align: right; font-size: 100%; font-weight:bold;
+	position:absolute; bottom:5px; right:5px; line-height:110%; background-color:lightblue;
+}
+.dom {font-weight:bold; font-size:150%;
+	text-align: center; position:absolute; top:30%; left:0; width:100%;
+}
+.bodystickcell {position:sticky; top:135px; z-index:10; background-color:white;
+	border-bottom: green solid 4px;
+}
+.shabbostd {border-bottom-style: solid; border-bottom-color: blue; border-bottom-width: 4px;
+	margin-bottom: 2px; padding-bottom: 2px; background-color: lightblue;
+}
+/*.shabbosday {background-color: lightblue;
+}*/
+.nextyr {background-color: lightgray;
+}
+.topday {border-style: none; border-width: 1px;
+}
+#calendarsbody1 {display:none; /* initially don't display first version*/
+}
+#calendarsbody3 {display:none; /* initially don't display third version*/
+}
+.calBdySel {background-color: lightgreen;
+}
+#filler {min-height:130px;
+}
+#ruler {display:inline-block; width:5%; text-align:center;
+}
+.rulertbl {border-collapse:collapse; display:inline-block;
+}
+.left1rule, .right1rule {width:3px; height:7px; border-bottom:black solid 2px;
+}
+.left2rule, .right2rule {width:2px; height:7px; border-bottom:black solid 2px;
+}
+.left2rule {border-right: black solid 3px;
+}
+.leftrule, .rightrule {border: none;
+}
+.leftrule.shabbosrule, .rightrule.shabbosrule {width:4px; border-bottom: blue solid 3px;
+}
+.left1rule.shabbosrule, .right1rule.shabbosrule {border-bottom: blue solid 3px;
+}
+.left2rule.shabbosrule, .right2rule.shabbosrule {border-bottom: blue solid 3px;
+}
+.left2rule.dotrule, .right2rule.dotrule {width:2px; border-bottom: red solid 6px;
+}

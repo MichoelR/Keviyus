@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html LANG=HE>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=utf-8">
+<script src='includes/jquery-2.1.4.min.js' ></script>
+<script src='includes/jquery-ui.min.js'></script>
+<title>Molad Calculator</title>
+<script>
+	$(document).ready(function() {
+		init();
+	});
+	
+	function init() { // initialize global variables
+		shifts = [[2,5,204],[2,16,595],[4,8,876],[5,21,589],[1,12,793]];
+		sumup(); // initialize output from whatever's there
+	}
+	
+	function sumup(){ // event handler for any one of the multipliers
+		var mults=[];
+		mults[0] = $.map($(".multiplier"),function(mult) {return mult.value || 0});
+		var others = $.map($(".other"),function(other1) {return other1.value || 0});
+		shifts[5] = others;
+		var out00 = multiplyMatrices(mults,shifts); // --> 1x3 triplet
+		var out0 = out00[0];
+		// now need to reduce by carrying
+		var out1 = redTrpl(out0);
+		var out2 = convEng(out1); // convert to English date/time
+		ldOutput(out1,out2); // load this into Output row
+	}
+	
+	function multiplyMatrices(m1, m2) {
+		var result = [];
+		for (var i = 0; i < m1.length; i++) {
+			result[i] = [];
+			for (var j = 0; j < m2[0].length; j++) {
+				var sum = 0;
+				for (var k = 0; k < m1[0].length; k++) {
+					sum += m1[i][k] * m2[k][j];
+				}
+				result[i][j] = sum;
+			}
+		}
+		return result;
+	}
+	
+	function redTrpl(out0){ // carry properly triple for the molad calculations
+		// 7 days/week, 24 hours/day, 1080 chalakim/hours/day
+		// we don't have to worry about the weeks.
+		var xx = out0[2], yy = xx%1080, zz = Math.floor(xx/1080); // chalakim
+		var out1=[]; out1[2] = yy;
+		xx = out0[1] + zz, yy = xx%24, zz = Math.floor(xx/24); // hours
+		out1[1] = yy;
+		xx = out0[0] + zz, yy = (xx+6)%7 + 1, zz = Math.floor(xx/7); // days removing weeks - keep Shabbos=7
+		out1[0] = yy;
+		return out1;
+	}
+	
+	function convEng(out1) { // convert triple to English time
+		var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Shabbos"]
+		var day = out1[0];
+		var hours = out1[1]; // hours are measured from 6 pm of the day before
+		var chalakim = out1[2]; // 1080/hour, 18/minute, 3+1/3 seconds
+		hours = hours-6;
+		if (hours<0) {day = day-1; hours = hours+24;} // evening of previous day
+		var daynm = days[day-1];
+		var pm = "am";
+		var hournm = (hours<12) ? "morning" : ((hours<18) ? "afternoon" : "night");
+		if (hours>=12) {pm = "pm"; hours = hours-12;}
+		var minutes = Math.floor(chalakim/18), chalakim = chalakim%18; // left over
+		var len = minutes.toString().length,filler = (len==1) ? "0" : ""; // like the 0 in 3:01
+		hours = (hours==0) ? 12 : hours;
+		var out2 = "The molad will be "+daynm+" "+hournm+", "+hours+":"+filler+minutes+" "+pm+" and "+chalakim+" chalakim";
+		return out2;
+	}
+	
+	function ldOutput(out1,out2){ // load output triple into Output row
+		for (var ii=1; ii<4; ii++) {
+			var out = out1[ii-1];
+			$("#out_"+ii).text(out);
+		}
+		$("#engTime").text(out2);
+	}
+	
+	function inYear() { // load this year into multipliers
+		var guachadazat = [3,6,8,11,14,17,19];
+		var year = $("#year").val();
+		var month = $("#month").val();
+		var cycles = Math.floor(year/19); // 19-year cycles
+		var yrs = year%19; // leftover years
+		var isleap = guachadazat.includes(yrs); // is this year a leap year?
+		// need to convert month number - one less for regular years, after Adar
+		if ((!isleap)&&(month>6)) {month = month-1};
+		var regular=0,leap=0;
+		for (var ii=1; ii<yrs; ii++) { // for years _prior_ to this one
+			if (guachadazat.includes(ii)) {leap++}
+			else {regular++};
+		}
+		// okay, set various multiplies
+		$("#mult_1").val(1);
+		$("#mult_2").val(cycles);
+		$("#mult_3").val(regular);
+		$("#mult_4").val(leap);
+		$("#mult_5").val(month-1); // for the beginning of the month, so Tishrei is 0, etc.
+		$("#mult_6").val(null);
+		$("#other_1").val(null);
+		$("#other_2").val(null);
+		$("#other_3").val(null);
+		sumup();
+	}
+	
+</script>
+
+<style>
+
+.tbldiv {text-align:center;
+}
+h1 {text-align:center;
+}
+.calcTbl {display: inline-block; font-size: 150%;
+}
+table,th,td { border: 1px solid black; border-collapse:collapse;
+}
+thead {border-bottom: 2px solid black;
+}
+tfoot {font-weight: bold; border-top: 2px solid black;
+}
+input,select {font-size:100%
+}
+.rowname { font-weight:bold; text-align:right; border-right: 2px solid black;
+}
+.yrdiv { font-size: 150%; margin: 20px;
+}
+.yrlbl,.monthlbl { font-weight:bold; text-align:right;
+}
+.engTime { padding-left: 20px; font-weight:normal;
+}
+
+</style>
+
+</head>
+<body>
+<div class='tbldiv'>
+<h1>Molad Calculator</h1>
+
+<div class="yrdiv">
+<label for="year" class="yrlbl">Year</label>
+<input type="number" step=1 min=0 max=6000 id="year" value="5779" onchange="inYear();"></input>
+
+<label for="month" class="monthlbl" onchange="inYear();">Month</label>
+<select id="month" value="1" onchange="inYear()">
+	<option value='1' selected='selected'>תשרי (Tishrei)</option>
+	<option value='2'>חשון (Chesvan)</option>
+	<option value='3'>כסלו (Kislev)</option>
+	<option value='4'>טבת (Teves)</option>
+	<option value='5'>שבט (Shevat)</option>
+	<option value='6'>אדר (Adar I)</option>
+	<option value='7'>'אדר ב (Adar II)</option>
+	<option value='8'>ניסן (Nisan)</option>
+	<option value='9'>אייר (Iyar)</option>
+	<option value='10'>סיון (Sivan)</option>
+	<option value='11'>תמוז (Tammuz)</option>
+	<option value='12'>אב (Av)</option>
+	<option value='13'>אלול (Elul)</option>
+</select>
+</div>
+
+<table class='calcTbl'>
+	<thead>
+	<tr>
+		<th class='rowname'></th>
+		<th>Days</th>
+		<th>Hours</th>
+		<th title='1080 in an hour (3&frac13; seconds)'>Chalakim</th>
+		<th title='Enter a number here to multiply the row by, and add to the rest.'>Multiplier</th>
+		<th>Description (optional)</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td class='rowname'>Input</td>
+		<td><span class="fixshift" id="txt_1_1">2</span></td>
+		<td><span class="fixshift" id="txt_1_2">5</span></td>
+		<td><span class="fixshift" id="txt_1_3">204</span></td>
+		<td><input type="number" step=1 min=0 max=1 class="multiplier" id="mult_1" value="1" onchange="sumup()"></input></td>
+		<td>initial starting point (בהר"ד)</td>
+	</tr>
+	<tr>
+		<td class='rowname'>+Input</td>
+		<td><span class="fixshift" id="txt_2_1">2</span></td>
+		<td><span class="fixshift" id="txt_2_2">16</span></td>
+		<td><span class="fixshift" id="txt_2_3">595</span></td>
+		<td><input type="number" step=1 min=0 max=9999 class="multiplier" id="mult_2" value="304" onchange="sumup()"></input></td>
+		<td>19-year cycle</td>
+	</tr>
+	<tr>
+		<td class='rowname'>+Input</td>
+		<td><span class="fixshift" id="txt_3_1">4</span></td>
+		<td><span class="fixshift" id="txt_3_2">8</span></td>
+		<td><span class="fixshift" id="txt_3_3">876</span></td>
+		<td><input type="number" step=1 min=0 max=9999 class="multiplier" id="mult_3" value="2" onchange="sumup()"></input></td>
+		<td>1 peshutah (regular year, 12 months)</td>
+	</tr>
+	<tr>
+		<td class='rowname'>+Input</td>
+		<td><span class="fixshift" id="txt_4_1">5</span></td>
+		<td><span class="fixshift" id="txt_4_2">21</span></td>
+		<td><span class="fixshift" id="txt_4_3">589</span></td>
+		<td><input type="number" step=1 min=0 max=9999 class="multiplier" id="mult_4" value="0" onchange="sumup()"></input></td>
+		<td>1 m'uberes (leap year, 13 months)</td>
+	</tr>
+	<tr>
+		<td class='rowname'>+Input</td>
+		<td><span class="fixshift" id="txt_5_1">1</span></td>
+		<td><span class="fixshift" id="txt_5_2">12</span></td>
+		<td><span class="fixshift" id="txt_5_3">793</span></td>
+		<td><input type="number" step=1 min=0 max=9999 class="multiplier" id="mult_5" value="0" onchange="sumup()"></input></td>
+		<td>1 month</td>
+	</tr>
+	<tr>
+		<td class='rowname'>+Input</td>
+		<td><input type="number" step=1 min=0 max=7 class="other" id="other_1" onchange="sumup()"></input></td>
+		<td><input type="number" step=1 min=0 max=24 class="other" id="other_2" onchange="sumup()"></input></td>
+		<td><input type="number" step=1 min=0 max=1080 class="other" id="other_3" onchange="sumup()"></input></td>
+		<td><input type="number" step=1 min=0 max=9999 class="multiplier" id="mult_6" onchange="sumup()"></input></td>
+		<td>Other</td>
+	</tr>
+	</tbody>
+	<tfoot>
+	<tr>
+		<td class='rowname'>= Output</td>
+		<td><span class="fixshift" id="out_1"></span></td>
+		<td><span class="fixshift" id="out_2"></span></td>
+		<td><span class="fixshift" id="out_3"></span></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td colspan="5"><span class="engTime" id="engTime"></span></td>
+	</tr>
+	</tfoot>
+</table>
+</div>
+</body>
+<html>
