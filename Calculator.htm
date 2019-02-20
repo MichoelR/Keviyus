@@ -47,10 +47,13 @@
 		// 7 days/week, 24 hours/day, 1080 chalakim/hours/day
 		// we don't have to worry about the weeks.
 		var xx = out0[2], yy = xx%1080, zz = Math.floor(xx/1080); // chalakim
+		if (yy<0) {yy=yy+1080; zz=zz-1}; // carry up
 		var out1=[]; out1[2] = yy;
 		xx = out0[1] + zz, yy = xx%24, zz = Math.floor(xx/24); // hours
+		if (yy<0) {yy=yy+24; zz=zz-1};
 		out1[1] = yy;
 		xx = out0[0] + zz, yy = (xx+6)%7 + 1, zz = Math.floor(xx/7); // days removing weeks - keep Shabbos=7
+		if (yy<0) yy=yy+7;
 		out1[0] = yy;
 		return out1;
 	}
@@ -126,7 +129,11 @@ tfoot {font-weight: bold; border-top: 2px solid black;
 }
 input,select {font-size:100%
 }
-.rowname { font-weight:bold; text-align:right; border-right: 2px solid black;
+.rowname { font-weight:bold; text-align:right; border-right: 2px solid black; width:100px;
+}
+.fixshift {float:right;
+}
+.multiplier {text-align:right; float:right;
 }
 .yrdiv { font-size: 150%; margin: 20px;
 }

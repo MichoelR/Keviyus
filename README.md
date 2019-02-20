@@ -1,4 +1,4 @@
-# Keviyus v1.0
+# Keviyus v2.0
 
 Jewish calendar app
 
@@ -8,7 +8,7 @@ This app is designed to teach the full process of calculating the Jewish calenda
 starting with the number of the year.
 
 To use it, download the zip folder, check for viruses, and unzip.
-Along with supporting files, the folder contains two PowerPoint presentations/pdfs and three html pages.
+Along with supporting files, the folder contains three PowerPoint presentations/pdfs and three html pages.
 
 The main presentation is This year's calendar. It walks through the process of creating a calendar
 in detail, from beginning to end.
@@ -20,5 +20,6 @@ Orach Chaim 428. It shows every detail of the 14 different Jewish calendars, alo
 convenient aids to visualization.
 The third is Four Gates.htm, a rendering of the arba'ah sh'arim also described in the Tur.
 
-The last presentation is The keviyus page, which describes some of the features of the Keviyus page.
+The second presentation is The keviyus page, which describes some of the features of the Keviyus page.
+The third presentation is Sidros, which gives more detail on the process of assigned the weekly Torah readings.
 
