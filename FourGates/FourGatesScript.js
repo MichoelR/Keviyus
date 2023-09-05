@@ -229,16 +229,22 @@ $(window).on("load", function(){
 	   some are much bigger than others
 	Results: */
 	const tblHeights = [0.6328703703703704,0.46940586419753094,0.7954475308641973,0.10227623456790136,0.6328703703703704,0.3671296296296296,0.7351466049382713,0.8977237654320991,0.3671296296296296,0.26574074074074083,0.3671296296296296,0.4694058641975305,0.8977237654320991];
-
-	/* reset the row heights to match the actual time within that row */
-	$(".moladCol").each(function(index){ 
-	  $(this).css("height",(tblHeights[index]*32.7)+"px") 
-	})
-
-	//Make the middle div element draggable:
+    /* total of heights = 7;*/
+	
     ptrTop = $("#rule2 .li18h:first").offset().top;
 	ptrBottom = $("#rule2 .li18h:last").offset().top;
 	ptrHeight = ptrBottom-ptrTop; // set global variables-
+	
+	/* reset the row heights to match the actual time within that row */
+	/*$(".moladCol").each(function(index){ 
+	  $(this).css("height",(tblHeights[index]*32.7)+"px") 
+	})*/
+	const heightMult = ptrHeight/7; //multiplier in pixels so the total will be 7;
+	$("tbody tr").each(function(index){ 
+	  $(this).css("height",(tblHeights[index]*heightMult)+"px") 
+	})
+
+	//Make the middle div element draggable:
 	$("#ptr_2").draggable({
 	  axis: "y",
 	  containment: [5,ptrTop,10,ptrBottom],

@@ -173,26 +173,23 @@ h1 {
 }
 
 .moladCtr {
-  width: 90%;
+  width: 95%;
   text-align: center;
   margin-top: 10px;
   border: 1px solid blue;
   color: blue;
-  font-size: small;
+  font-size: 14px;
 }
 
 #molad_1.moladCtr {
   position: absolute;
-  /*left: 5px;*/
 }
 #molad_3.moladCtr {
   position: absolute;
-  /*left: -7px;*/
 }
 
 .moladCtrI {
   position: absolute;
-  /*left: -14px;*/
   left: -10px;
   width: 110px;
   text-align: left;
@@ -201,7 +198,7 @@ h1 {
   color: black;
 }
 .moladCI {
-  font-size: small;
+  font-size: 14px;
   padding: 0;
 }
 .moladCtrI1 {
@@ -280,6 +277,8 @@ h1 {
   white-space: nowrap;
   z-index: 1;
 }
+#fourGates tr {
+}
 #fourGates th {
   background-color: #F4F4F4;
   text-align: center;
@@ -317,7 +316,7 @@ h1 {
   top: -7px;
   overflow: visible;
   white-space: nowrap;
-  font-size:10;
+  font-size:13px;
   cursor: pointer;
   transition: transform 0.2s ease;
 }
