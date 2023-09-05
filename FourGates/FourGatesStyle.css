@@ -190,8 +190,8 @@ h1 {
 
 .moladCtrI {
   position: absolute;
-  left: -10px;
-  width: 110px;
+  left: -15px;
+  width: 120px;
   text-align: left;
   margin-top: 5px;
   border: 2px solid lawngreen;
@@ -202,7 +202,7 @@ h1 {
   padding: 0;
 }
 .moladCtrI1 {
-  width: 20px;
+  width: 25px;
   border: none;
 }
 .moladCtrI2 {
@@ -210,7 +210,7 @@ h1 {
   border: none;
 }
 .moladCtrI3 {
-  width: 40px;
+  width: 50px;
   border: none;
 }
 
