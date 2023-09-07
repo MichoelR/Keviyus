@@ -170,7 +170,7 @@ h1 {
 .moladCtr {
   width: 95%;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 5px;
   border: 1px solid blue;
   color: blue;
   font-size: 14px;
@@ -339,14 +339,44 @@ h1 {
   top: -7.5px;
 }
 
-.yearType {
+#fourGates .yearType {
   cursor: pointer;
   transition: transform 0.2s ease;
 }
 #fourGates th.yearType:hover {
   background-color: lightgray;
   transform: translateY(-1px);
+}
 
+.storydiv{
+  position: relative;
+  display: block;
+  height: 60px;
+  width: 100%;
+  border: 1px solid black;
+  margin-top: 40px;
+  padding-left: 5px;
+  background-color: lightcyan;
+}
+#storyMolad {
+  font-weight: bold;
+}
+#showCol {
+  position:relative;
+  border: 2px solid darkblue;
+  background-color: gold;
+  padding-top: 1px;
+}
+
+@keyframes flash1 {
+ 0% { background-color: white; opacity:100%;}
+ 50% { background-color: yellow; }
+ 100% { background-color: white; opacity:100%;}
+}
+.flash1{
+	animation-name: flash1;
+	animation-duration: 1s;
+	animation-iteration-count: 1;
 }
 
 .flash2::before { /* only there when addClass */
@@ -358,7 +388,7 @@ h1 {
     width: 24px; /* Adjust as needed */
     height: 4px; /* Takes full height of the li */
     background-color: transparent;
-    animation: flash2 1s ; /* Adjust animation duration as needed */
+    animation: flash2 3s ; /* Adjust animation duration as needed */
   }
 @keyframes flash2 {
  0% { background-color: white; opacity:100%;}

@@ -32,13 +32,18 @@ $(".yearType").on("click", function() {
 $(".moladDiv").on("click", function() {
   let pickYrTyp = $(this).attr("pickYrTyp"); // some of them need certain yrTyps to work
   let moladTxt = $(this).text();
+  let title = $(this).attr("title");
   $(".yearType").eq(pickYrTyp-1).trigger("click"); // choose that column
   // okay, let's set the molad
   let molad2 = molad2array(moladTxt);
   mvPtr(molad2,2,0,1); // adjust pointer for second ruler
   mvOtherPtrs(molad2,1);
   mvHArr(); // move horizontal arrow to match
+  showStory(moladTxt,title);
+});
 
+$("#showCol").on("mouseover",function(){
+	flashclass("moladCol",1);
 });
 
 $(".moladCI").on("input",function(){ // update all pointers and counters on input
@@ -138,6 +143,11 @@ function sizeVArrow(ptrPos) {
 function sizeHArrow(divleft) {
   let arrowLeft = $("#HArr").offset().left;
   $(".harrow").css("width",divleft-arrowLeft+7);
+}
+
+function showStory(moladTxt,title) {
+$("#storyMolad").text("["+moladTxt+"]");
+  $("#storyTxt").text(title);
 }
 
 function moladDecimalSubtract(molad1,molad2) {
@@ -246,9 +256,6 @@ $(window).on("load", function(){
     ptrHeight = ptrBottom-ptrTop; // set global variables-
     
     /* reset the row heights to match the actual time within that row */
-    /*$(".moladCol").each(function(index){ 
-      $(this).css("height",(tblHeights[index]*32.7)+"px") 
-    })*/
     const heightMult = ptrHeight/7; //multiplier in pixels so the total will be 7;
     $("tbody tr").each(function(index){ 
       $(this).css("height",(tblHeights[index]*heightMult)+"px") 
@@ -280,6 +287,9 @@ $(window).on("load", function(){
   $(".yearType").eq(2).trigger("click"); // choose that column
   mvHArr(); // move horizontal arrow
   ;
+  
+  flashclass("moladCol",1); // briefly flash moladCol column
+  flasheltbyid("showCol",1);
 
 });
 
@@ -287,7 +297,7 @@ function flashelt(oelt,num) {
     var fclass = "flash"+num;
     oelt.classList.remove(fclass); // first clear
     setTimeout(function() {oelt.classList.add(fclass);},0);
-    setTimeout(function() {oelt.classList.remove(fclass);},2000); // clear after
+    setTimeout(function() {oelt.classList.remove(fclass);},3000); // clear after
 }
 
 function flasheltbyid(id,num) { // flash color on a single element
