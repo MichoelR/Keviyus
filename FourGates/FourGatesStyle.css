@@ -84,14 +84,9 @@ h1 {
   content: counter(day) "d";
 }
 
-.li18h {
+.oidiv .li18h {
   color: darkorange;
   border-color: darkorange;
-}
-
-.jagged{
-  position: relative;
-  left: 12px;
 }
 
 .vl {
@@ -353,3 +348,28 @@ h1 {
   transform: translateY(-1px);
 
 }
+
+.flash2::before { /* only there when addClass */
+	position: absolute;
+    content: "";
+    display: inline-block;
+	top: -2px;
+	left: -2px;
+    width: 24px; /* Adjust as needed */
+    height: 4px; /* Takes full height of the li */
+    background-color: transparent;
+    animation: flash2 1s ; /* Adjust animation duration as needed */
+  }
+@keyframes flash2 {
+ 0% { background-color: white; opacity:100%;}
+ 25% { background-color: yellow; }
+ 50% { background-color: orange; }
+ 75% { background-color: yellow; }
+ 100% { background-color: white; opacity:100%;}
+}
+.flash2{
+	animation-name: flash2;
+	animation-duration: 1s;
+	animation-iteration-count: 2;
+}
+
