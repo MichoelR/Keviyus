@@ -1,7 +1,7 @@
 /*css styles for FourGates*/
 
 h1 {
-  margin-left: 150px;
+  margin-left: 250px;
 }
 
 .oidiv ol,li {
@@ -118,6 +118,14 @@ h1 {
 }
 .ruler2 {
   margin-top: 30px;
+}
+
+.yrLen {
+  position: absolute;
+  top: -42px;
+  left: -50px;
+  text-align: center;
+  font-weight: bold;
 }
 
 .year {

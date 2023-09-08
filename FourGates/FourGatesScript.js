@@ -23,9 +23,9 @@ $(".yearType").on("click", function() {
   let divtop = $(this).offset().top, divleft=$(this).offset().left;
   yrTyp = $(this).attr("yrTyp"); // global variable
   mvVArrow(yrTyp,divtop,divleft);
-  //let newtop = $("#ptr_2").position().top;
-  let molad2 = molads[[1]]; // didn't change
+  let molad2 = molads[1]; // didn't change
   mvOtherPtrs(molad2); // move the other three pointers, which may change
+  setYrLen(yrTyp); // reset year length headers above the rulers
 });
 
   // make molad times on the chart clickable - adjust molads and yrTyp, move pointers
@@ -61,6 +61,14 @@ $(".moladCI").on("input",function(){ // update all pointers and counters on inpu
   mvHArr(); // move horizontal arrow to match
 
 });
+
+function setYrLen(yrTyp) { // set year length headers above rulers
+  const yearType = yearTypes[yrTyp-1]; // regular or leap year, 0 or 1
+  for (let ii=0; ii<3; ii++) {
+	let typeNm = (yearType[ii]) ? "←מעוברת→" : "←פשוטה→";
+    $("#yrLen_"+(ii+1)).text(typeNm);
+  }
+}
 
 function mvOtherPtrs(molad2,flashf) { // only pointer 2 is draggable. Move the rest.
 //  Same with molad counter at bottom: only #2 is editable, move the rest too.
