@@ -341,10 +341,22 @@ h1 {
 #fourGates td .lgTxt {
   position: absolute;
   font-size:125%;
-  top: 0;
+  /*top: 0;*/
+  top: -5px;
+  padding:3px 5px;
+  border: 2px blue; /* not visible initially */
+}
+#fourGates td .lgTxt.showBrd {
+  border-style: solid;
+  z-index: 2;
 }
 #fourGates td .txtUp {
-  top: -7.5px;
+  /*top: -7.5px;*/
+  /*top: -14.5px;*/
+  transform: translateY(-4px);
+}
+#fourGates td .txtDown {
+  transform: translateY(15px);
 }
 
 #fourGates .yearType {

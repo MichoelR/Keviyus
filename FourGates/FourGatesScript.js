@@ -26,6 +26,7 @@ $(".yearType").on("click", function() {
   let molad2 = molads[1]; // didn't change
   mvOtherPtrs(molad2); // move the other three pointers, which may change
   setYrLen(yrTyp); // reset year length headers above the rulers
+  chkCalendar(molad2); // reset chosen calendar
 });
 
   // make molad times on the chart clickable - adjust molads and yrTyp, move pointers
@@ -33,12 +34,14 @@ $(".moladDiv").on("click", function() {
   let pickYrTyp = $(this).attr("pickYrTyp"); // some of them need certain yrTyps to work
   let moladTxt = $(this).text();
   let title = $(this).attr("title");
+  let moladn = $(this).attr("moladn");
   $(".yearType").eq(pickYrTyp-1).trigger("click"); // choose that column
   // okay, let's set the molad
   let molad2 = molad2array(moladTxt);
   mvPtr(molad2,2,0,1); // adjust pointer for second ruler
   mvOtherPtrs(molad2,1);
   mvHArr(); // move horizontal arrow to match
+  setCalendar(moladn);
   showStory(moladTxt,title);
 });
 
@@ -59,6 +62,7 @@ $(".moladCI").on("input",function(){ // update all pointers and counters on inpu
   mvPtr(molad2,2,!fixf); // adjust pointer for second ruler, and counter if needed
   mvOtherPtrs(molad2);
   mvHArr(); // move horizontal arrow to match
+  chkCalendar(molad2); // reset calendar chosen
 
 });
 
@@ -78,6 +82,36 @@ function mvOtherPtrs(molad2,flashf) { // only pointer 2 is draggable. Move the r
   for (let ii of [1,3,4]) { // the other ones
     mvPtr(molad2,ii,0,flashf);
   } 
+}
+
+function chkCalendar(molad2) { // find and then mark correct calendar, based on molad
+  let moladnum = molad2number(molad2,1); // convert to canonical form
+  // yrTyp is global for the current column.
+  let moladn = findMoladn(moladnum,yrTyp);
+  setCalendar(moladn); // mark correct calendar
+}
+function findMoladn(moladnum,yearType) {
+  //  the molad transition that is just before (or equal to) the current molad
+  // Not every transition is relevant for a particular year type.
+  for (let ii=13; ii>=0; ii--) { // we'll pick the first one that matches
+    // find in hash table
+    if (moladI[ii]>moladnum) continue; // not there yet
+	let moladn = ii;
+	let cols = tblMoladList[moladn].cols; // list of columns for which this molad is a transition
+	if (cols.includes(yearType-1)) { // found!
+      return moladn;
+	}
+  }
+  // okay, not found: moladnum is less than all of them
+}
+function setCalendar(moladn) { // mark correct calendar for the molad button chosen
+  // first find corresponding calendar, which also depends on the global var yrTyp.
+  let caln = tblMoladList[moladn].calns[yrTyp-1];
+  if (caln !== calendarn) { // otherwise, nothing to do. calendarn was previously set
+    $("[caln="+calendarn+"]").removeClass("showBrd"); // previous calendar
+    $("[caln="+caln+"]").addClass("showBrd"); // show border on that calendar
+    calendarn = caln; // set global value
+  }
 }
 
 function mvPtr(molad2,ii,noctrf,flashf) { // other rulers 1 3 or 4, move to match appropriately
@@ -150,7 +184,7 @@ function sizeVArrow(ptrPos) {
 
 function sizeHArrow(divleft) {
   let arrowLeft = $("#HArr").offset().left;
-  $(".harrow").css("width",divleft-arrowLeft+7);
+  $(".harrow").css("width",divleft-arrowLeft+9);
 }
 
 function showStory(moladTxt,title) {
@@ -176,6 +210,17 @@ function molad2array(str) { // assume string like "6d 15h 21ch"
 }
 function molad2decimal(ary) {
     return +ary[0] + (+ary[1]/24) + (+ary[2]/24/1080);
+}
+function molad2number(ary,h18f) { // input molad array, turn into canonical form dhhpppp
+	// if h18f is set, make sure it's at least 0d 18h (one of the molad transitions)
+    ary = renormalizeMolad(ary);
+	let m0=ary[0],m1=ary[1],m2=ary[2];
+	let str = m0+(String(m1).padStart(2,"0"))+(String(m2).padStart(4,"0")); // pad w 0s
+	let num = parseInt(str);
+	if (h18f & (num<180000)) { // convert 0d18h to 7d18h
+	  num = num + 7000000; // 0d to 7d
+	}
+	return num;
 }
 
 function moladAdder(m1,m2) { // adds two molad array, renormalizes
@@ -232,6 +277,7 @@ function dec2Molad(moladDec) {
   return renormalizeMolad([m0,m1,m2]);
 }
 
+/* some global variables */
 let rulerTop=[],rulerHeight=[],rulerBottom=[];
 for (let ii=1; ii<5; ii++) {
     rulerTop[ii-1] = $("#rule"+ii).position().top; // should be 0, contained in parent div
@@ -241,6 +287,25 @@ for (let ii=1; ii<5; ii++) {
 let molads=[];
 let ptrTop,ptrBottom,ptrHeight; // use them to find the molad value from the pointer #2
 // ptrTop is 0d18h, ptrBottom is the same, at the bottom of the ruler.
+
+let calendarn; // which of the fourteen calendars is selected
+
+/* list of the transition points on the Four Gates, and for which yearTypes [cols]
+     it is the transition,
+     and the position in the calendars array for all four columns, even where 
+     it is not a transition. */
+const tblMoladList = [{"molad": [0,18,0], "num": 0180000, "cols": [0,1,2,3], "calns": [0,0,0,7]},{"molad": [1,9,204], "num": 1090204, "cols": [0,1,2], "calns": [1,1,1,7]},{"molad": [1,20,491], "num": 1200491, "cols": [3], "calns": [1,1,1,8]},{"molad": [2,15,589], "num": 2150589, "cols": [0,1], "calns": [2,2,1,8]},{"molad": [2,18,0], "num": 2180000, "cols": [2,3], "calns": [2,2,2,9]},{"molad": [3,9,204], "num": 3090204, "cols": [0,1,2], "calns": [3,3,3,9]},{"molad": [3,18,0], "num": 3180000, "cols": [3], "calns": [3,3,3,10]},{"molad": [4,11,695], "num": 4110695, "cols": [3], "calns": [3,3,3,11]},{"molad": [5,9,204], "num": 5090204, "cols": [0,1,2], "calns": [4,4,4,11]},{"molad": [5,18,0], "num": 5180000, "cols": [0,1,2,3], "calns": [5,5,5,12]},{"molad": [6,0,408], "num": 6000408, "cols": [0], "calns": [6,5,5,12]},{"molad": [6,9,204], "num": 6090204, "cols": [1,2], "calns": [6,6,6,12]},{"molad": [6,20,491], "num": 6200491, "cols": [3], "calns": [6,6,6,13]},{"molad": [7,18,0], "num": 7180000, "cols": [0,1,2,3], "calns": [0,7]}];
+
+/* build hash table for molad canonical numbers, save time */
+let moladI = [];
+for (let ii=0; ii<14; ii++) {
+  let molad = tblMoladList[ii], moladnum = molad.num; // canonical form
+  moladI.push(moladnum);
+}
+
+/* list of the calendars, first seven for peshutos, then seven for m'ubaros */
+const calendars = ['בח"ג','בש"ה','גכ"ה','הכ"ז','הש"א','זח"א','זש"ג','בח"ה','בש"ז','גכ"ז','הח"א','הש"ג','זח"ג','זש"ה'];
+
 
 /* initialize - gotta start somewhere */
 $(window).on("load", function(){
@@ -279,6 +344,7 @@ $(window).on("load", function(){
         let molad2 = dec2Molad(moladDec); // convert into actual molad
         setMolad(molad2,2); // set counter and global molads entry
         mvOtherPtrs(molad2); // move the other three pointers
+		chkCalendar(molad2); // set correct calendar based on pointer
       }
     });
     
