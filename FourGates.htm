@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <script src="includes/jquery-3.7.1.min.js" ></script>
+  <script src="includes/jquery-ui.min.js" ></script>
+  <link rel="stylesheet" href="FourGatesStyle.css">
+
+</head>
+
+<body>
+
+<h1><b>Four gates</b> &#160; <span style="font-size:110%;">ד' שערים</span></h1>
+
+<div class="container">
+
+<div class="ruler ruler4">
+<!-- tells which of the four relevant years it is -->
+<div class="year">+2 תשריs</div>
+<!-- movable pointers to the left of the rulers, to show the exact time of the molad.
+     We'll need to place them vertically. -->
+<div id="ptr_4" class="ptr"><span> ⯈ </span></div>
+<!-- RH markers to left of the rulers, to show the day of Rosh Hashana.
+     We'll need to place them vertically. We might need up to three of them. Initially hidden. -->
+<div id="RH_4_0" class="RH">
+  <div>ר"ה</div>
+  <div class="_a">ש</div>
+</div>
+<div id="RH_4_1" class="RH">
+  <div>ר"ה</div>
+  <div class="RH2">ש</div>
+</div>
+<div id="RH_4_2" class="RH">
+  <div>ר"ה</div>
+  <div class="RH2">ש</div>
+</div>
+<!-- ruler itself; horizontal ticks will be added by css -->
+<div class="oidiv">
+  <ol id="rule4" class="ruleroi"></ol>
+</div>
+<!-- widget to give numerical time of molad -->
+<div id="molad_4" class="moladCtr"></div>
+</div>
+
+<div class="ruler ruler3">
+<!-- year-length headers above the rulers, between two ruler years, like "←פשוטה→" -->
+<div id="yrLen_3" class="yrLen"></div>
+<div class="year">Next תשרי</div>
+<div id="ptr_3" class="ptr"><span> ⯈ </span></div>
+<div id="RH_3_0" class="RH">
+  <div>ר"ה</div>
+  <div class="RH2">ש</div>
+</div>
+<div id="RH_3_1" class="RH">
+  <div>ר"ה</div>
+  <div class="RH2">ש</div>
+</div>
+<div id="RH_3_2" class="RH">
+  <div>ר"ה</div>
+  <div class="RH2">ש</div>
+</div>
+<div class="oidiv">
+  <ol id="rule3" class="ruleroi"></ol>
+</div>
+<div id="molad_3" class="moladCtr"></div>
+</div>
+
+<div class="ruler ruler2"> <!-- middle section.-->
+<div id="yrLen_2" class="yrLen"></div>
+<div class="year year2">This תשרי</div>
+<div id="ptr_2" class="ptr"><span> ⯈ </span></div>
+<div id="RH_2_0" class="RH">
+  <div>ר"ה</div>
+  <div class="RH2">ש</div>
+</div>
+<div id="RH_2_1" class="RH">
+  <div>ר"ה</div>
+  <div class="RH2">ש</div>
+</div>
+<div id="RH_2_2" class="RH">
+  <div>ר"ה</div>
+  <div class="RH2">ש</div>
+</div>
+<div class="oidiv">
+  <ol id="rule2" class="ruleroi"></ol>
+</div>
+<div id="molad_2" class="moladCtrI">
+  <input id="molad_2_0" type="number" step=1 class="moladCI moladCtrI1"></input>
+  <input id="molad_2_1" type="number" step=1 class="moladCI moladCtrI2"></input>
+  <input id="molad_2_2" type="number" step=1 class="moladCI moladCtrI3"></input>
+</div>
+</div>
+
+<div class="ruler ruler1">
+<div id="yrLen_1" class="yrLen"></div>
+<div class="year">Last תשרי</div>
+<div id="ptr_1" class="ptr"><span> ⯈ </span></div>
+<div id="RH_1_0" class="RH">
+  <div>ר"ה</div>
+  <div class="RH2">ש</div>
+</div>
+<div id="RH_1_1" class="RH">
+  <div>ר"ה</div>
+  <div class="RH2">ש</div>
+</div>
+<div id="RH_1_2" class="RH">
+  <div>ר"ה</div>
+  <div class="RH2">ש</div>
+</div>
+<div class="oidiv">
+  <ol id="rule1" class="ruleroi"></ol>
+</div>
+<div id="molad_1" class="moladCtr"></div>
+</div>
+
+
+<div id="fourgatesdiv">
+
+<table id="fourGates" style="border-collapse: collapse; margin:auto;">
+<thead><tr >
+<th  rowspan="2" colspan="2" style="width:100px" class="moladCol">Molad Tishrei
+</th>
+<th  colspan="4">Year of 19-year cycle
+</th></tr>
+<tr >
+<th yrTyp=1 class="yearType" style=" padding: 0px 10px;">
+1 4 9 12 15<br/><span class="lgTxt"  title="_This_ year is פשוטה. Last year was מעוברת, and next year is פשוטה.">(מפ"פ)</span>
+</th>
+<th yrTyp=2 class="yearType" style=" padding: 0px 30px;">7 18<br/><span class="lgTxt"  title="_This_ year is פשוטה. Last year and next year are מעוברות.">(מפ"מ)</span>
+</th>
+<th yrTyp=3 class="yearType" style="border: 1px solid; border-color: #B0B0B0 #707070; padding: 0px 10px;">2 5 10 13 16<br/><span class="lgTxt"  title="_This_ year is פשוטה. Last year was פשוטה, and next year is מעוברת.">(פפ"מ)</span>
+</th>
+<th yrtyp=4 class="yearType" style=" padding: 0px 10px;">3 6 8 11 14 17 19<br/><span class="lgTxt"  title="_This_ year is מעוברת. Last year and next year are פשוטות.">(פמ"פ)</span>
+</th></tr>
+<tr class="topGapTR"><th class="topGap"></th><th></th><th colspan="3"></th><th></th>
+</tr>
+</thead>
+<tbody id="fourGatesBody">
+<tr>
+<td class="moladCol"><div class="moladDiv" moladn=0 title='Beginning of year pushed forward to Monday because of מולד זקן and לא אד"ו ראש.'>7d 18h 0ch</div>
+</td>
+<td class="moladCol2"></td>
+<td >
+</td>
+<td style="border: 1px #707070; border-style: solid hidden; "><span caln=0 class="lgTxt" >בח"ג</span>
+</td>
+<td >
+</td>
+<td style="border: 1px #B0B0B0; border-style: solid solid hidden; "><span caln=7 class="lgTxt" >בח"ה</span>
+</td></tr>
+<tr >
+<td class="moladCol">
+<div class="moladDiv" moladn=1 pickYrTyp=1 title='_End_ of פשוטה goes past 5d 18h, which goes to Shabbos because of מולד זקן and לא אד"ו ראש. [Independent of the transition, the beginning of the year was already moving from Sunday to Monday because of לא אד"ו ראש.]'>1d 9h 204ch
+</div>
+</td>
+<td class="moladCol2"></td>
+<td style="border: 1px #707070; border-style: solid solid hidden;" colspan="3">
+</td>
+<td style="border: 1px solid; border-color: #707070 #B0B0B0;"><span class="lgTxt" >&#160;</span>
+</td></tr>
+<tr >
+<td class="moladCol">
+<div class="moladDiv" moladn=2 pickYrTyp=4  title='Pushes end of מעוברת past 7d 18h, which goes to Monday because of מולד זקן and לא אד"ו ראש. [Independent of the transition, the beginning of the year was already moving from Sunday to Monday because of לא אד"ו ראש.]'>1d 20h 491ch</div>
+</td>
+<td class="moladCol2"></td>
+<td >
+</td>
+<td style="border: 1px #707070; border-style: solid hidden; "> <span caln=1 class="lgTxt" >בש"ה</span>
+</td>
+<td style="border: 1px #707070; border-style: hidden solid;">
+</td>
+<td style="border: 1px #B0B0B0; border-style: solid solid hidden; "><span caln=8 class="lgTxt" >בש"ז</span>
+</td></tr>
+<tr >
+<td class="moladCol">
+<div class="moladDiv moladDivUp" moladn=3 pickYrTyp=1 title='Fourth dechiyah, בט"ו תקפ"ט: If _previous_ year is מעוברת, its molad is after noon on Tuesday, and is pushed forward two days because of מולד זקן and לא אד"ו ראש. The previous year would have been only 382 days long, too short. So Rosh Hashanah for this year is pushed forward one day to Tuesday.'>2d 15h 589ch</div>
+</td>
+<td class="moladCol2"></td>
+<td style="border: 1px #707070; border-style: solid solid hidden;" colspan="2">
+</td>
+<td >
+</td>
+<td style="border: 1px solid; border-color: #707070 #B0B0B0;"><span class="lgTxt" >&#160;</span>
+</td></tr>
+<tr >
+<td class="moladCol">
+<div class="moladDiv moladDivDown" moladn=4 pickYrTyp=3  title="מולד זקן">2d 18h 0ch</div>
+</td>
+<td class="moladCol2"></td>
+<td >
+</td>
+<td style="border: 1px #707070; border-style: solid hidden; "> <span caln=2 class="lgTxt" >גכ"ה</span>
+</td>
+<td >
+</td>
+<td style="border: 1px #B0B0B0; border-style: solid solid hidden; "><span caln=9 class="lgTxt" >גכ"ז</span>
+</td></tr>
+<tr >
+<td class="moladCol" >
+<div class="moladDiv" moladn=5 pickYrTyp=1 title='Third dechiyah, ג"ט ר"ד: If this year is פשוטה, the molad for _next_ year will be on Shabbos after noon, and is pushed forward two days because of מולד זקן and לא אד"ו ראש. The year would have been 356 days long, too long. So this Rosh Hashanah is pushed forward one day to Wednesday, and then another day because of לא אד"ו ראש.'>3d 9h 204ch</div>
+</td>
+<td class="moladCol2"></td>
+<td style="border: 1px #707070; border-style: solid hidden solid solid;" rowspan="3">
+</td>
+<td style="border: 1px #707070; border-style: solid hidden; " rowspan="3"><span caln=3 class="lgTxt txtDown" >הכ"ז</span>
+</td>
+<td style="border: 1px #707070; border-style: solid solid solid hidden;" rowspan="3">
+</td>
+<td style="border: 1px solid; border-color: #707070 #B0B0B0;"><span class="lgTxt" >&#160;</span>
+</td></tr>
+<tr >
+<td class="moladCol">
+<div class="moladDiv" moladn=6 pickYrTyp=4 title='Beginning of year pushed forward to Thursday because of מולד זקן and לא אד"ו ראש.'>3d 18h 0ch</div>
+</td>
+<td class="moladCol2"></td>
+<td style="border: 1px solid; border-color: #707070 #B0B0B0; "> <span caln=10 class="lgTxt" >הח"א</span>
+</td></tr>
+<tr >
+<td class="moladCol">
+<div class="moladDiv" moladn=7 pickYrTyp=4 
+    title='Molad at _end_ of this מעוברת year is ג"ט ר"ד (see above 3d 9h 204ch). It moves two days forward from Tuesday to Thursday, and the year becomes שלימה instead of חסירה. [Independent of the transition, the beginning of the year was already moving from Wednesday to Thursday because of לא אד"ו ראש.]'>4d 11h 695ch</div>
+</td>
+<td class="moladCol2"></td>
+<td style="border: 1px #B0B0B0; border-style: solid solid hidden;"><span caln=11 class="lgTxt" >הש"ג</span>
+</td></tr>
+<tr >
+<td class="moladCol">
+<div class="moladDiv" moladn=8 pickYrTyp=1 
+    title='If the year is פשוטה, the molad at the _end_ of the year goes after noon on Monday. It moves forward to Tuesday because of מולד זקן, and the year becomes שלימה instead of כסידרה. [Independent of the transition, the beginning of the year was already moving from Wednesday to Thursday because of לא אד"ו ראש.]'>5d 9h 204ch</div>
+</td>
+<td class="moladCol2"></td>
+<td >
+</td>
+<td style="border: 1px #707070; border-style: solid hidden; "> <span caln=4 class="lgTxt txtUp" >הש"א</span>
+</td>
+<td >
+</td>
+<td style="border: 1px solid; border-color: #707070 #B0B0B0; "> <span class="lgTxt" >&#160;</span>
+</td></tr>
+<tr >
+<td class="moladCol">
+<div class="moladDiv" moladn=9 pickYrTyp=1 
+    title='Beginning of year pushed forward to Shabbos because of מולד זקן and לא אד"ו ראש.'>5d 18h 0ch</div>
+</td>
+<td class="moladCol2"></td>
+<td style="border: 1px #707070; border-style: solid hidden solid solid;">
+</td>
+<td style="border: 1px #707070; border-style: solid hidden solid solid;" rowspan="2">
+<span caln=5 class="lgTxt" >זח"א</span>
+</td>
+<td></td>
+<td rowspan="3" style="border: 1px #B0B0B0; border-style: solid solid solid;"><span caln=12 class="lgTxt" >זח"ג</span>
+</td></tr>
+<tr >
+<td class="moladCol">
+<div class="moladDiv" moladn=10 pickYrTyp=1 
+    title='Molad at _end_ of this פשוטה year is ג"ט ר"ד (see above 3d 9h 204ch) - where next year is also פשוטה. It moves two days forward from Tuesday to Thursday, and the year becomes שלימה instead of חסירה. [Independent of the transition, the beginning of the year was already moving from Friday to Shabbos because of לא אד"ו ראש.]'>6d 0h 408ch</div>
+</td>
+<td class="moladCol2"></td>
+<td style="border: 1px #707070; border-style: solid solid hidden solid;">
+</td>
+<td style="border: 1px #707070; border-style: hidden solid solid hidden; ">
+</td>
+</tr>
+<tr >
+<td class="moladCol">
+<div class="moladDiv" moladn=11 pickYrTyp=2 
+    title='If the year is פשוטה, the molad at the _end_ of the year goes after noon on Tuesday. It moves forward to Thursday because of מולד זקן and לא אד"ו ראש, and the year becomes שלימה instead of חסירה. [Independent of the transition, the beginning of the year was already moving from Friday to Shabbos because of לא אד"ו ראש.]'>6d 9h 204ch</div>
+</td>
+<td class="moladCol2"></td>
+<td style="border: 1px #B0B0B0; border-style: hidden hidden solid solid;" rowspan="2">
+</td>
+<td style="border: 1px #707070; border-style: solid solid hidden hidden;" colspan="2">
+</td>
+</tr>
+<tr>
+<td class="moladCol" style=" padding: 0px 10px;">
+<div class="moladDiv" moladn=12 pickYrTyp=4
+    title='If the year is מעוברת, the molad at the _end_ of the year goes after noon on Thursday. It moves forward to Shabbos because of מולד זקן and לא אד"ו ראש, and the year becomes שלימה instead of חסירה. [Independent of the transition, the beginning of the year was already moving from Friday to Shabbos because of לא אד"ו ראש.]'>6d 20h 491ch</div>
+</td>
+<td class="moladCol2"></td>
+<td style="border: 1px #B0B0B0; border-style: hidden hidden solid; "><span caln=6 class="lgTxt" >זש"ג</span>
+</td>
+<td style="border: 1px; border-style: hidden solid solid hidden; border-color: #A0A0A0 #707070;">
+</td>
+<td ><span caln=13 class="lgTxt" >זש"ה</span>
+</td></tr>
+<tr>
+<td class="moladCol" style=" padding: 0px 10px;">
+<div class="moladDiv" moladn=13 title='This is a seven day cycle. When you get to the end of Friday, go back to the beginning of Shabbos at the top.'>7d 18h 0ch</div>
+</td>
+<td class="moladCol2" style="text-align:center; border:none;" title='This is a seven day cycle. When you get to the end of Friday, go back to the beginning of Shabbos at the top;'>&olarr;</td></tr>
+</tbody>
+</table>
+
+</div> <!-- end of fourgatesdiv -->
+
+<div id="HArr" class="harrowdiv">
+  <div class="harrow"></div>
+</div>
+
+<div id="VArr" class="varrowdiv">
+  <div class="varrow"></div>
+</div>
+
+</div> <!-- end of overall container -->
+
+<div id="storydiv" class="storydiv"><b>Stories:</b>
+<span id="storyTransition"></span>
+<span id="storyMolad"></span>
+<span id="storyTxt"><i>Click on one of the molad times in the <span id="showCol"><b>Molad Tishrei</b></span> column, to see what happens at that time.</i>
+</span>
+</div>
+
+
+<br/><br/><br/>
+<h2>Explanation</h2>
+<p>The ארבעה שערים ("Four gates") is a shortcut to calculating the year's calendar. It was already referred to in the time of the Gaonim. Once you have found this year's molad for Tishrei, instead of calculating next year's molad and checking the Four Dechiyos for each of them, this chart just tells you the answer: which one of the fourteen calendars is the one for this year.</p>
+<p>You need to know<br/>
+(A) this year's molad Tishrei, and<br/>
+(B) which of last year, this year, and next year are leap years. There are four possibilities:
+<ol><li>Last year was a leap year, this year and next year are not (מפ"פ).</li>
+<li>Both last year and next year are leap years, this year is not (מפ"מ).</li>
+<li>Next year was a leap year but this year and last year are not (פפ"מ).</li>
+<li>This year is a leap year, last year and next year are not (פמ"פ).</li>
+</ol>
+</p>
+<p>The leap years and regular years go in a 19 year cycle ('גו"ח אדז"ט'); the chart shows which years fall into each of the types. For instance, מפ"פ applies to years 1 4 9 12 15.</p>
+<p>The time of the molad of Tishrei can fall anywhere in the week (7d 0h 0ch &rarr; 6d 23h 1079ch). [Note that in Jewish calendar time, the day begins at 6pm (called 0h), midnight is 6h, dawn 12h, and noon is 18h.] If you would move it through the week from beginning to end, you could calculate the molad of the next Tishrei as well and work out the dechiyos. For small changes, mostly the days of Rosh Hashanah would not change. However, at certain times one of the molads would cross a critical line. At that point, the calendar has a sudden change. Then it will stay the same for a while again, until another critical line is reached.</p>
+<p>Those critical points are on the left of the chart, in the "Molad Tishrei" column. If the molad reaches one of those values, we get a new calendar, and it will stay that way till the molad reaches the next critical point.</p>
+<p>The critical points may be for only some of the types. To see which ones, extend the line from that value, visually to the right; the places where the line appears are the year types for which this critical point marks a change.</p>
+<p>For instance, for 2d 18h 0ch the line by those numbers is only visible on the right two columns, פפ"מ and פמ"פ: look to the right to see the line begin there. For those two the calendar changes when the molad is &ge; 2d 18h 0ch. (For the left two columns the change had already happened at 2d 15h 589ch.)</p>
+
+<p><b>Dynamic features of the app:</b></p>
+<p>The four rulers on the left show the times of a molad, for four successful Rosh Hashanos: Last year's Tishrei, this year's Tishrei, next year's, the year after.</p>
+<p>The rulers are linked by the amount of time that passes from one year to the next. That depends on whether each year in between is a regular or leap year - all of which depend on which column (year type) you're in for the chart on the right.</p>
+<p>You can click on a different year type column to change to it, and the rulers on the left will adjust, since the lengths of the various years have changed.</p>
+<p>You can adjust the molad of <i>this year's</i> Tishrei (2nd ruler from the right, 'This ר"ה') by pulling the green pointer, or by setting its value on the bottom. The other pointers will follow.</p>
+<p>As the molad for this year changes, the calendar chosen for the year also adjusts.</p>
+<p>If you click on any of the critical change times, it will be set as the molad time in the ruler for 'This ר"ה'. An explanation of the transition that takes place at the time appears below in the "Story" area. The calendar for the year will change back and forth if you move the molad even 1 chelek earlier.</p>
+<p>Each of these transitions happens because one of the four rulers moves past the 18h mark, forcing a change to the day of Rosh Hashanah that year because of the rule "מולד זקן". That place on that particular ruler will flash briefly to make it more noticeable.</p>
+
+<p>[This chart is a modified version of one found in Wikipedia, https://en.wikipedia.org/wiki/Hebrew_calendar#Four_gates.]<br/>
+
+<script src="FourGatesScript.js"></script>
+
+</body>
+
+</html>
