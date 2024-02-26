@@ -101,6 +101,7 @@ h1 {
   position: relative;
   display: flex;
   margin-top: 0;
+  margin-left:10px;
   /*overflow: scroll;*/
 }
 
@@ -166,6 +167,9 @@ h1 {
   padding: 0;
   line-height: 0px;
 }
+.ptr span {
+  position: absolute;
+}
 
 #ptr_2 {
   color: lawngreen;
@@ -173,6 +177,30 @@ h1 {
   width: 20px;
   height: 20px;
   background: transparent;
+  z-index: 2; /* so it can be dragged even if the RH days are there too */
+}
+
+.RH {
+  position: absolute;
+  color: blue;
+  left: -8.5px;
+  border-right: 2px solid blue;
+  height: 38px;
+  padding: 0;
+  display: none; /* initially */
+  z-index: 1; /* stay under the pointer */
+}
+
+.RH div {
+  margin-right: 1px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 60%;
+}
+
+.RH2 {
+  line-height: .6em;
+  padding: 2px;
 }
 
 .moladCtr {
@@ -400,26 +428,39 @@ h1 {
 }
 
 .flash2::before { /* only there when addClass */
-	position: absolute;
+/*	position: absolute;
     content: "";
     display: inline-block;
 	top: -2px;
 	left: -2px;
-    width: 24px; /* Adjust as needed */
-    height: 4px; /* Takes full height of the li */
+    width: 24px; 
+    height: 4px; 
     background-color: transparent;
     animation: flash2 3s ; /* Adjust animation duration as needed */
   }
 @keyframes flash2 {
  0% { background-color: white; opacity:100%;}
- 25% { background-color: yellow; }
- 50% { background-color: orange; }
- 75% { background-color: yellow; }
+ 25% { background-color: yellow;}
+ 50% { background-color: orange;}
+ 75% { background-color: yellow;}
  100% { background-color: white; opacity:100%;}
 }
 .flash2{
 	animation-name: flash2;
 	animation-duration: 1s;
-	animation-iteration-count: 2;
+	animation-iteration-count: 3;
+}
+
+@keyframes flash3 {
+ 0% { color: blue; transform: translateY(-1px);}
+ 25% { color: blue; transform: translateY(0px);}
+ 50% { color: blue; transform: translateY(1px);}
+ 75% { color: blue; transform: translateY(0px);}
+ 100% { color: blue; transform: translateY(-1px);}
+}
+.flash3{
+	animation-name: flash3;
+	animation-duration: 1s;
+	animation-iteration-count: 3;
 }
 

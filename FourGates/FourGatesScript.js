@@ -27,6 +27,7 @@ $(".yearType").on("click", function() {
   mvOtherPtrs(molad2); // move the other three pointers, which may change
   setYrLen(yrTyp); // reset year length headers above the rulers
   chkCalendar(molad2); // reset chosen calendar
+  clearRHbar(); // if they had been set
 });
 
   // make molad times on the chart clickable - adjust molads and yrTyp, move pointers
@@ -43,6 +44,7 @@ $(".moladDiv").on("click", function() {
   mvHArr(); // move horizontal arrow to match
   setCalendar(moladn);
   showStory(moladTxt,title);
+  setRH(moladn); // set the vertical day-of-RH markers, show their changes
 });
 
 $("#showCol").on("mouseover",function(){
@@ -63,6 +65,7 @@ $(".moladCI").on("input",function(){ // update all pointers and counters on inpu
   mvOtherPtrs(molad2);
   mvHArr(); // move horizontal arrow to match
   chkCalendar(molad2); // reset calendar chosen
+  clearRHbar(); // if they had been set
 
 });
 
@@ -114,7 +117,7 @@ function setCalendar(moladn) { // mark correct calendar for the molad button cho
   }
 }
 
-function mvPtr(molad2,ii,noctrf,flashf) { // other rulers 1 3 or 4, move to match appropriately
+function mvPtr(molad2,ii,noctrf,flashf) { // other rulers 1 3 or 4, move here to match appropriately
   // yrTyp is global, current year type 1-4
   // molad2 is input, the molad from ruler2. We need to translate it for the others
   // ruler 1 is separated from the pointer (ruler 2) by last year, back.
@@ -133,7 +136,7 @@ function mvPtr(molad2,ii,noctrf,flashf) { // other rulers 1 3 or 4, move to matc
   if (ii==1) otherMolad = moladSubtracter(molad2,otheryrShift);
   if (ii>2) otherMolad = moladAdder(molad2,otheryrShift);
   if (ii==4) otherMolad = moladAdder(otherMolad,otheryrShift2); // two separate years
-  if (flashf) {check18(otherMolad,ii)};
+  if (flashf) {check18(otherMolad,ii)}; // animation
   setMolad(otherMolad,ii,noctrf); // change counter and global molads entry
   setPlace(molad2decimal(otherMolad),ii); // move pointer to correct location
 }
@@ -161,6 +164,8 @@ function check18(molad,ii) { // if molad is 18h 0ch, flash that element on ruler
     let day = molad[0];
     let elt18 = $("#rule"+ii+" .li18h")[day];
 	flashelt(elt18,2);
+	let ptr = $("#ptr_"+ii+" span")[0]; // also wiggle pointer
+	flashelt(ptr,3);
   }
 }
 
@@ -171,8 +176,6 @@ function mvHArr() {
 }
 
 function mvVArrow(yrTyp,divtop,divleft) {
-  //$("#VArr").css("left",divleft+17);
-  //$("#VArr").css("top",divtop+117);
   $("#VArr").offset({top:divtop+30, left: divleft+20});
   sizeHArrow(divleft); // also resize horizontal arrow, to match
 }
@@ -187,7 +190,50 @@ function sizeHArrow(divleft) {
   $(".harrow").css("width",divleft-arrowLeft+9);
 }
 
+function clearRHbar() { // get rid of all RH bars
+  // We _only_ show them if you click on a molad transition.
+  $(".RH").hide();
+  $(".RH2").css("border","none"); // in case the previous RH day(s) were circled
+}
+function changeRHbar(col,ii,day) { // all changes to RH bar for different day
+  day = day%7; // remainder, 0-6
+  let daynm = (day==0) ? "ש" : day; // use ש for Shabbos, otherwise the number
+  let rhSel = "#RH_"+col+"_"+ii;
+  let color = ["blue","violet","tan"][ii];
+  $(rhSel).show(); // in case it was hidden
+  mvRHbar(rhSel,day); // reposition
+  $(rhSel+" .RH2").text(daynm);
+  $(rhSel).css("borderColor",color);
+  $(rhSel).css("color",color);
+  if (ii==0) $(rhSel+" .RH2").css("border","blue solid 1px"); // final result for RH day
+}
+
+function mvRHbar(rhSel,day) { // reposition to different day
+  let rh = rulerHeight[0]; // they're all the same
+  let rt = $("#rule1").offset().top;
+  $(rhSel).offset({top:(rt+(rh/7*day))}); // move one-seventh height * several times
+}
+
+function sizeRHbar(col,ii) { // set size - should only need to be done once
+  let rh = rulerHeight[0]; // they're all the same
+  $("#RH_"+col+"_"+ii).css("height",rh/7);
+}
+
+function setRH(moladn) { // show vertical day-of-RH markers for that transition, show the changes
+  // this may include several columns, and each may have up to three markers:
+  // initial day of RH, moved to, (maybe) moved to again
+  let rhs = tblMoladList[moladn].rhs;
+  $.each( rhs, function (col, rhArray) { // each key is a column number, each rhArray
+    // is a set of up to three days that we should show
+	let rhln = rhArray.length;
+	for (let ii=0; ii<rhln; ii++) {
+	  changeRHbar(col,ii,rhArray[rhln-ii-1])
+	}
+  })
+}
+
 function showStory(moladTxt,title) {
+$("#storyTransition").text("Transition at");
 $("#storyMolad").text("["+moladTxt+"]");
   $("#storyTxt").text(title);
 }
@@ -290,11 +336,62 @@ let ptrTop,ptrBottom,ptrHeight; // use them to find the molad value from the poi
 
 let calendarn; // which of the fourteen calendars is selected
 
-/* list of the transition points on the Four Gates, and for which yearTypes [cols]
-     it is the transition,
-     and the position in the calendars array for all four columns, even where 
-     it is not a transition. */
-const tblMoladList = [{"molad": [0,18,0], "num": 0180000, "cols": [0,1,2,3], "calns": [0,0,0,7]},{"molad": [1,9,204], "num": 1090204, "cols": [0,1,2], "calns": [1,1,1,7]},{"molad": [1,20,491], "num": 1200491, "cols": [3], "calns": [1,1,1,8]},{"molad": [2,15,589], "num": 2150589, "cols": [0,1], "calns": [2,2,1,8]},{"molad": [2,18,0], "num": 2180000, "cols": [2,3], "calns": [2,2,2,9]},{"molad": [3,9,204], "num": 3090204, "cols": [0,1,2], "calns": [3,3,3,9]},{"molad": [3,18,0], "num": 3180000, "cols": [3], "calns": [3,3,3,10]},{"molad": [4,11,695], "num": 4110695, "cols": [3], "calns": [3,3,3,11]},{"molad": [5,9,204], "num": 5090204, "cols": [0,1,2], "calns": [4,4,4,11]},{"molad": [5,18,0], "num": 5180000, "cols": [0,1,2,3], "calns": [5,5,5,12]},{"molad": [6,0,408], "num": 6000408, "cols": [0], "calns": [6,5,5,12]},{"molad": [6,9,204], "num": 6090204, "cols": [1,2], "calns": [6,6,6,12]},{"molad": [6,20,491], "num": 6200491, "cols": [3], "calns": [6,6,6,13]},{"molad": [7,18,0], "num": 7180000, "cols": [0,1,2,3], "calns": [0,7]}];
+/* list of the molads of the transition points on the Four Gates,
+     and num, their canonical form,
+     and calns, the position in the calendars array for all four yearType columns, whether or not 
+       it is a transition,
+     and cols, for which yearTypes [cols] it is the transition,
+	 and rulerday, the position/day on the rulers on the left where the critical 18h mark crossing is.
+	 Also rhs, which shows how the day of Rosh Hashanah changes for the transition. Each element
+	   gives the column, and the transition from the initial
+	   day of RH to the final result. This can include several columns to the left or right.
+   If you are at or after a given critical molad _and_ before the next critical one
+     for that column, this entry tells you the resulting calendar.
+*/
+const tblMoladList = [
+  {"molad": [0,18,0], "num": 0180000, "calns": [0,0,0,7], "cols": [0,1,2,3], "rulerday": [2,0],
+    "rhs": {2: [0,1,2]}
+  },
+  {"molad": [1,9,204], "num": 1090204, "calns": [1,1,1,7], "cols": [0,1,2], "rulerday": [3,5],
+    "rhs": {3: [5,6,7], 2: [1,2]}
+  },
+  {"molad": [1,20,491], "num": 1200491, "calns": [1,1,1,8], "cols": [3], "rulerday": [3,0],
+    "rhs": {3: [0,1,2], 2: [1,2]}
+  },
+  {"molad": [2,15,589], "num": 2150589, "calns": [2,2,1,8], "cols": [0,1], "rulerday": [1,3],
+    "rhs": {1: [3,4,5], 2: [2,3]}
+  },
+  {"molad": [2,18,0], "num": 2180000, "calns": [2,2,2,9], "cols": [2,3], "rulerday": [2,2],
+    "rhs": {2: [2,3]}
+  },
+  {"molad": [3,9,204], "num": 3090204, "calns": [3,3,3,9], "cols": [0,1,2], "rulerday": [3,0],
+    "rhs": {3: [0,1,2], 2: [3,4,5]}
+  },
+  {"molad": [3,18,0], "num": 3180000, "calns": [3,3,3,10], "cols": [3], "rulerday": [2,3],
+    "rhs": {2: [3,4,5]}
+  },
+  {"molad": [4,11,695], "num": 4110695, "calns": [3,3,3,11], "cols": [3], "rulerday": [4,0],
+    "rhs": {4: [0,1,2], 3: [3,4,5], 2:[4,5]}
+  },
+  {"molad": [5,9,204], "num": 5090204, "calns": [4,4,4,11], "cols": [0,1,2], "rulerday": [3,2],
+    "rhs": {3: [2,3], 2: [5]}
+  },
+  {"molad": [5,18,0], "num": 5180000, "calns": [5,5,5,12], "cols": [0,1,2,3], "rulerday": [2,5],
+    "rhs": {2: [5,6,0]}
+  },
+  {"molad": [6,0,408], "num": 6000408, "calns": [6,5,5,12], "cols": [0], "rulerday": [4,0],
+    "rhs": {4: [0,1,2], 3:[3,4,5], 2:[6,0]}
+  },
+  {"molad": [6,9,204], "num": 6090204, "calns": [6,6,6,12], "cols": [1,2], "rulerday": [3,3],
+    "rhs": {3: [3,4,5], 2: [6,0]}
+  },
+  {"molad": [6,20,491], "num": 6200491, "calns": [6,6,6,13], "cols": [3], "rulerday": [3,5],
+    "rhs": {3: [5,6,0], 2: [6,0]}
+  },
+  {"molad": [7,18,0], "num": 7180000, "cols": [0,1,2,3], "calns": [0,7], "rulerday": [2,0],
+    "rhs": {2: [0,1,2]}
+  }
+];
 
 /* build hash table for molad canonical numbers, save time */
 let moladI = [];
@@ -305,7 +402,6 @@ for (let ii=0; ii<14; ii++) {
 
 /* list of the calendars, first seven for peshutos, then seven for m'ubaros */
 const calendars = ['בח"ג','בש"ה','גכ"ה','הכ"ז','הש"א','זח"א','זש"ג','בח"ה','בש"ז','גכ"ז','הח"א','הש"ג','זח"ג','זש"ה'];
-
 
 /* initialize - gotta start somewhere */
 $(window).on("load", function(){
@@ -345,6 +441,7 @@ $(window).on("load", function(){
         setMolad(molad2,2); // set counter and global molads entry
         mvOtherPtrs(molad2); // move the other three pointers
 		chkCalendar(molad2); // set correct calendar based on pointer
+		clearRHbar(); // if they had been set
       }
     });
     
@@ -361,6 +458,12 @@ $(window).on("load", function(){
   $(".yearType").eq(2).trigger("click"); // choose that column
   mvHArr(); // move horizontal arrow
   ;
+  
+  for (col=1; col<4; col++) { // set sizes for all the day-of-RH bars
+    for (ii=0; ii<3; ii++) {	
+	  sizeRHbar(col,ii)
+	}
+  }
   
   flashclass("moladCol",1); // briefly flash moladCol column
   flasheltbyid("showCol",1);
