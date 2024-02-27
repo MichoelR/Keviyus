@@ -198,7 +198,35 @@ h1 {
   font-size: 60%;
 }
 
-.RH2 {
+.RH_fnl { /* concluding result for RH-day */
+  margin-left: 0;
+  padding-right: 0;
+  border-right-width: 3px;
+  border-color: blue;
+  color: blue;
+}
+
+.RH_nof1 { /* earlier RH-day, just before 0 */
+  border-color: lightgreen;
+  color: lightgreen;
+}
+
+.RH_nof2 { /* earlier RH-day, just before 1 */
+  border-color: red;
+  color: red;
+}
+
+.RH_nofnl { /* any earlier RH-day */
+  margin-left: 4px;
+  padding-right: 2.5px;
+  border-right-width: 1.5px;
+}
+
+.RH_Shb { /* earlier RH-day, if it's on Shabbos (need more room) */
+  padding-right: 1px;
+}
+
+.RH2 { /* text of day-of-week */
   line-height: .6em;
   padding: 2px;
 }

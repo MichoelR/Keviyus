@@ -199,21 +199,17 @@ function changeRHbar(col,ii,day) { // all changes to RH bar for different day
   day = day%7; // remainder, 0-6
   let daynm = (day==0) ? "ש" : day; // use ש for Shabbos, otherwise the number
   let rhSel = "#RH_"+col+"_"+ii;
-  let color = ["blue","lightgreen","red"][ii];
-  $(rhSel).show(); // in case it was hidden
-  mvRHbar(rhSel,day); // reposition
-  let rhtxt = (ii==0) ? 'ר"ה' : "";
+  let rhtxt = (ii==0) ? 'ר"ה' : ""; // ii==0 is the final conclusion
   $(rhSel+" .RHtxt").text(rhtxt);
   $(rhSel+" .RH2").text(daynm);
-  $(rhSel).css("borderColor",color);
-  $(rhSel).css("color",color);
-  let mgl = (ii==0) ? 0 : 4;
-  $(rhSel).css("marginLeft",mgl+"px");
-  let pdr = (ii==0) ? 0 : (day==0) ? 1 : 2.5;
-  $(rhSel).css("paddingRight",pdr+"px");
-  let brw = (ii==0) ? 3 : 1.5; // make final one thicker
-  $(rhSel).css("borderRightWidth",brw+"px");
-  if (ii==0) $(rhSel+" .RH2").css("border","blue solid 1px"); // final result for RH day
+  let rhcls = "RH " + ((ii==0) ? "RH_fnl" : (day==0) ? "RH_nofnl RH_Shb" : "RH_nofnl"); 
+  rhcls = rhcls + ( (ii==1) ? " RH_nof1" : (ii==2) ? " RH_nof2" : "" );
+  $(rhSel).show(); // in case it was hidden
+  $(rhSel).removeClass(); // remove all current classes
+  $(rhSel).addClass(rhcls);
+  let rh2brdr = (ii==0) ? "blue solid 1px" : "";
+  $(rhSel+" .RH2").css("border",rh2brdr); // final result for RH day
+  mvRHbar(rhSel,day); // reposition
 }
 
 function mvRHbar(rhSel,day) { // reposition to different day
