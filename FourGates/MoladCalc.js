@@ -11,6 +11,7 @@ yrTypArray = [1,3,4,1,3,4,2,4,1,3,4,1,3,4,1,3,4,2,4];
 function calcYear(year) { // load the year into multipliers
 	let cycles = Math.floor(year/19); // 19-year cycles
 	let yrs = year%19; // leftover years
+	yrs = (yrs) ? yrs : 19; // 1-19
 	let isleap = guachadazat.includes(yrs); // is this year a leap year?
 	let yrType = yrTypArray[yrs-1];
 	// count up regular and leap years for the previous years in the cycle
