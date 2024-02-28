@@ -193,8 +193,8 @@ function sizeHArrow(divleft) {
 function clearRHbar() { // get rid of all RH bars
   // We _only_ show them if you click on a molad transition.
   $(".RH").hide();
-  $(".RH2").css("border","none"); // in case the previous RH day(s) were circled
 }
+
 function changeRHbar(col,ii,day) { // all changes to RH bar for different day
   day = day%7; // remainder, 0-6
   let daynm = (day==0) ? "ש" : day; // use ש for Shabbos, otherwise the number
