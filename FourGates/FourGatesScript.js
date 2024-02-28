@@ -207,9 +207,9 @@ function changeRHbar(col,ii,day) { // all changes to RH bar for different day
   $(rhSel).show(); // in case it was hidden
   $(rhSel).removeClass(); // remove all current classes
   $(rhSel).addClass(rhcls);
-  let rh2brdr = (ii==0) ? "blue solid 1px" : "";
-  $(rhSel+" .RH2").css("border",rh2brdr); // final result for RH day
-  mvRHbar(rhSel,day); // reposition
+  let rh2cls = (ii==0) ? " RH2fnl" : ""; // RH2 is the day of the week text
+  $(rhSel+" .RH2").removeClass("RH2fnl").addClass(rh2cls); // final result for RH day
+  mvRHbar(rhSel,day); // reposition to the right day
 }
 
 function mvRHbar(rhSel,day) { // reposition to different day

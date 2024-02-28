@@ -231,6 +231,10 @@ h1 {
   padding: 2px;
 }
 
+.RH2fnl { /* circle the final RH result */
+  border: blue solid 1px;
+}
+
 .moladCtr {
   width: 95%;
   text-align: center;
