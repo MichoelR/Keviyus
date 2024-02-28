@@ -4,6 +4,11 @@ h1 {
   margin-left: 250px;
 }
 
+.yrspan {
+  margin-left: 250px;
+  font-size:50%;
+}
+
 .oidiv ol,li {
   /* removing the default list counters/days: */
   list-style-type: none;

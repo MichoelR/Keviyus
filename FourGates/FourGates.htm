@@ -11,7 +11,13 @@
 
 <body>
 
-<h1><b>Four gates</b> &#160; <span style="font-size:110%;">ד' שערים</span></h1>
+<h1>
+    <b>Four gates</b> &#160; <span style="font-size:110%;">ד' שערים</span>
+    <span class="yrspan">
+      <label for="year">Year</label>
+      <input id="year" type="number" step=1 min=0 max=6000></input>
+	</span>
+</h1>
 
 <div class="container">
 
@@ -21,7 +27,7 @@
 <!-- movable pointers to the left of the rulers, to show the exact time of the molad.
      We'll need to place them vertically. -->
 <div id="ptr_4" class="ptr"><span> ⯈ </span></div>
-<!-- RH markers to left of the rulers, to show the day of Rosh Hashana.
+<!-- RH markers to left of the rulers, to show the day of Rosh Hashanah.
      We'll need to place them vertically. We might need up to three of them. Initially hidden. -->
 <div id="RH_4_0" class="RH">
   <div class="RHtxt">&nbsp;</div>
@@ -328,22 +334,26 @@
 </p>
 <p>The leap years and regular years go in a 19 year cycle ('גו"ח אדז"ט'); the chart shows which years fall into each of the types. For instance, מפ"פ applies to years 1 4 9 12 15.</p>
 <p>The time of the molad of Tishrei can fall anywhere in the week (7d 0h 0ch &rarr; 6d 23h 1079ch). [Note that in Jewish calendar time, the day begins at 6pm (called 0h), midnight is 6h, dawn 12h, and noon is 18h.] If you would move it through the week from beginning to end, you could calculate the molad of the next Tishrei as well and work out the dechiyos. For small changes, mostly the days of Rosh Hashanah would not change. However, at certain times one of the molads would cross a critical line. At that point, the calendar has a sudden change. Then it will stay the same for a while again, until another critical line is reached.</p>
-<p>Those critical points are on the left of the chart, in the "Molad Tishrei" column. If the molad reaches one of those values, we get a new calendar, and it will stay that way till the molad reaches the next critical point.</p>
-<p>The critical points may be for only some of the types. To see which ones, extend the line from that value, visually to the right; the places where the line appears are the year types for which this critical point marks a change.</p>
-<p>For instance, for 2d 18h 0ch the line by those numbers is only visible on the right two columns, פפ"מ and פמ"פ: look to the right to see the line begin there. For those two the calendar changes when the molad is &ge; 2d 18h 0ch. (For the left two columns the change had already happened at 2d 15h 589ch.)</p>
+<p>Those critical points are on the left of the right-hand chart, in the "Molad Tishrei" column. If the molad reaches one of those values, we get a new calendar, and it will stay that way till the molad reaches the next critical point.</p>
+<p>The critical points may be for only some of the types. To see which ones, extend the line from that value, visually to the right (red horizontal arrow); the places where the line appears are the year types for which this critical point marks a change.</p>
+<p>For instance, for 2d 18h 0ch the line by those numbers is only visible on the right two columns, פפ"מ and פמ"פ: look to the right to see the line begin there. For those two the calendar changes when the molad is &ge; 2d 18h 0ch. (For the left two columns the change had already happened a <i>little</i> earlier, at 2d 15h 589ch.)</p>
 
 <p><b>Dynamic features of the app:</b></p>
 <p>The four rulers on the left show the times of a molad, for four successful Rosh Hashanos: Last year's Tishrei, this year's Tishrei, next year's, the year after.</p>
-<p>The rulers are linked by the amount of time that passes from one year to the next. That depends on whether each year in between is a regular or leap year - all of which depend on which column (year type) you're in for the chart on the right.</p>
-<p>You can click on a different year type column to change to it, and the rulers on the left will adjust, since the lengths of the various years have changed.</p>
-<p>You can adjust the molad of <i>this year's</i> Tishrei (2nd ruler from the right, 'This ר"ה') by pulling the green pointer, or by setting its value on the bottom. The other pointers will follow.</p>
-<p>As the molad for this year changes, the calendar chosen for the year also adjusts.</p>
-<p>If you click on any of the critical change times, it will be set as the molad time in the ruler for 'This ר"ה'. An explanation of the transition that takes place at the time appears below in the "Story" area. The calendar for the year will change back and forth if you move the molad even 1 chelek earlier.</p>
-<p>Each of these transitions happens because one of the four rulers moves past the 18h mark, forcing a change to the day of Rosh Hashanah that year because of the rule "מולד זקן". That place on that particular ruler will flash briefly to make it more noticeable.</p>
+<p>The rulers are linked, locked in synch, by the amount of time that passes from one year to the next. That depends on whether each year in between is a regular or leap year - all of which depend on which column (year type) you're in on the chart on the right.</p>
+<p>Things to do:</p>
+<p>1) You can click on a different year type column (on the headers on the right like '(מפ"מ)') to change to it, and the rulers on the left will adjust, since the lengths of the various years have changed.</p>
+<p>2) You can adjust the molad of <i>this year's</i> Tishrei (2nd ruler from the right, 'This ר"ה') by pulling the green pointer, </p>
+<p>3) or by setting its value on the bottom. The other pointers will follow.
+<br/>As the molad for this year changes, the calendar chosen for the year also adjusts.</p>
+<p>4) If you click on any of the critical change times ("Molad Tishrei" column), (b) it will be set as the molad time in the ruler for 'This ר"ה'. (b) The year type on the right hand side may change as well, to make this transition work.<br/> (c) An explanation of the transition that takes place at the time also appears, below in the "Stories" area.<br/> The calendar for the year will change back and forth if you move the molad even 1 chelek earlier.</p>
+<p>Each of these transitions happens because one of the four rulers moves past the 18h mark, forcing a change to the day of Rosh Hashanah that year because of the rule "מולד זקן". (d) That place on that particular ruler will flash briefly to make it more noticeable.</p>
+(e) <i>Also</i>, vertical colored bars will appear to the left of one or more of the rulers on the left-hand-side. These bars show how Rosh Hashanah changed for each of the affected years. You should be able to follow the steps in the Stories section below: One bar will show the day of the week for the <i>initial</i> guess at Rosh Hashanah on the day of the molad itself, and then one or two bars will show how it moves forward to its final position (in blue).
 
 <p>[This chart is a modified version of one found in Wikipedia, https://en.wikipedia.org/wiki/Hebrew_calendar#Four_gates.]<br/>
 
 <script src="FourGatesScript.js"></script>
+<script src="MoladCalc.js"></script>
 
 </body>
 

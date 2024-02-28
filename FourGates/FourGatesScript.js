@@ -18,6 +18,40 @@ $("ol").each( function (index) { // append a bunch of list elements
   }
 });
 
+// make Year input clickable, set year
+$("#year").on("click", function () {
+  if (!$(this).val()) {
+    $(this).val(5784); // default - this year
+    doYear();
+  }
+});
+$("#year").on("input", doYear); //calculates molad, adjusts other molad times to match
+
+function clearYear() { // remove year setting. Happens whenever we change anything _else_.
+  $("#year").val(null);
+}
+
+// set everything according to the year (for 2nd molad ruler from the right)
+//calculates molad, adjusts other molad times to match
+function doYear() { 
+  let year = $("#year").val();
+  if (!year) return;
+  // calcYear is in MoladCalc.js
+  let yrDat = calcYear(year); // returns yrDat object with molad info on that year
+  let molad2 = yrDat.molad; // 2nd column from the right - this year's molad
+  yrTyp = yrDat.yrTyp; // global variable
+  // okay, set up the page
+  let yrCol = $(".yearType").eq(yrTyp-1);
+  let divtop = yrCol.offset().top, divleft = yrCol.offset().left;
+  mvVArrow(yrTyp,divtop,divleft);
+  setYrLen(yrTyp); // reset year length headers above the rulers
+  mvPtr(molad2,2,0,1); // adjust pointer for second ruler
+  mvOtherPtrs(molad2,1);
+  mvHArr(); // move horizontal arrow to match
+  chkCalendar(molad2); // reset calendar chosen
+  clearRHbar(); // if they had been set
+}
+
 // make Year Type clickable, adjusts other molad times to match
 $(".yearType").on("click", function() {
   let divtop = $(this).offset().top, divleft=$(this).offset().left;
@@ -28,6 +62,7 @@ $(".yearType").on("click", function() {
   setYrLen(yrTyp); // reset year length headers above the rulers
   chkCalendar(molad2); // reset chosen calendar
   clearRHbar(); // if they had been set
+  clearYear(); // if set
 });
 
   // make molad times on the chart clickable - adjust molads and yrTyp, move pointers
@@ -66,6 +101,7 @@ $(".moladCI").on("input",function(){ // update all pointers and counters on inpu
   mvHArr(); // move horizontal arrow to match
   chkCalendar(molad2); // reset calendar chosen
   clearRHbar(); // if they had been set
+  clearYear(); // if set
 
 });
 
@@ -446,6 +482,7 @@ $(window).on("load", function(){
         mvOtherPtrs(molad2); // move the other three pointers
 		chkCalendar(molad2); // set correct calendar based on pointer
 		clearRHbar(); // if they had been set
+        clearYear(); // if set
       }
     });
     
