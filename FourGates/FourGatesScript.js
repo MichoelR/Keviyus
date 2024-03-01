@@ -50,6 +50,7 @@ function doYear() {
   mvHArr(); // move horizontal arrow to match
   chkCalendar(molad2); // reset calendar chosen
   clearRHbar(); // if they had been set
+  initStory();
 }
 
 // make Year Type clickable, adjusts other molad times to match
@@ -63,6 +64,7 @@ $(".yearType").on("click", function() {
   chkCalendar(molad2); // reset chosen calendar
   clearRHbar(); // if they had been set
   clearYear(); // if set
+  initStory();
 });
 
   // make molad times on the chart clickable - adjust molads and yrTyp, move pointers
@@ -78,7 +80,7 @@ $(".moladDiv").on("click", function() {
   mvOtherPtrs(molad2,1);
   mvHArr(); // move horizontal arrow to match
   setCalendar(moladn);
-  showStory(moladTxt,title);
+  showStory(moladTxt,moladn);
   setRH(moladn); // set the vertical day-of-RH markers, show their changes
 });
 
@@ -102,7 +104,7 @@ $(".moladCI").on("input",function(){ // update all pointers and counters on inpu
   chkCalendar(molad2); // reset calendar chosen
   clearRHbar(); // if they had been set
   clearYear(); // if set
-
+  initStory();
 });
 
 function setYrLen(yrTyp) { // set year length headers above rulers
@@ -272,10 +274,17 @@ function setRH(moladn) { // show vertical day-of-RH markers for that transition,
   })
 }
 
-function showStory(moladTxt,title) {
-$("#storyTransition").text("Transition at");
-$("#storyMolad").text("["+moladTxt+"]");
-  $("#storyTxt").text(title);
+function showStory(moladTxt,moladn) {
+  let story = tblMoladList[moladn].story;
+  $("#storyTransition").text("Transition at");
+  $("#storyMolad").text("["+moladTxt+"]");
+  $("#storyTxt").html(story);
+}
+
+function initStory() {
+  $("#storyTransition").text("");
+  $("#storyMolad").text("");
+  $("#storyTxt").html('<i>Click on one of the molad times in the <span id="showCol"><b>Molad Tishrei</b></span> column, to see what happens at that time.</i>');
 }
 
 function getMoladDec() { // finds decimal molad from position of pointer, 0-7
@@ -330,48 +339,49 @@ let calendarn; // which of the fourteen calendars is selected
 */
 const tblMoladList = [
   {"molad": [0,18,0], "num": 0180000, "calns": [0,0,0,7], "cols": [0,1,2,3], "rulerday": [2,0],
-    "rhs": {2: [0,1,2]}
+    "rhs": {2: [0,1,2]}, "story":'<span class="story2">Beginning of year</span> pushed forward to Monday because of <span class="story1">מולד זקן</span> and <span class="story0">לא אד"ו ראש</span>.'
   },
   {"molad": [1,9,204], "num": 1090204, "calns": [1,1,1,7], "cols": [0,1,2], "rulerday": [3,5],
-    "rhs": {3: [5,6,7], 2: [1,2]}
+    "rhs": {3: [5,6,7], 2: [1,2]}, "story":'<span class="story2">_End_ of פשוטה</span> goes past 5d 18h, which goes to Shabbos because of <span class="story1">מולד זקן</span> and <span class="story0">לא אד"ו ראש</span>. [Independent of the transition, the beginning of the year was already moving from <span class="story1">Sunday</span> to <span class="story0">Monday</span> because of לא אד"ו ראש.]'
   },
   {"molad": [1,20,491], "num": 1200491, "calns": [1,1,1,8], "cols": [3], "rulerday": [3,0],
-    "rhs": {3: [0,1,2], 2: [1,2]}
+    "rhs": {3: [0,1,2], 2: [1,2]}, "story":'Pushes <span class="story2">end of מעוברת</span> past 7d 18h, which goes to Monday because of <span class="story1">מולד זקן</span> and <span class="story0">לא אד"ו ראש</span>. [Independent of the transition, the beginning of the year was already moving from <span class="story1">Sunday</span> to <span class="story0">Monday</span> because of לא אד"ו ראש.'
   },
   {"molad": [2,15,589], "num": 2150589, "calns": [2,2,1,8], "cols": [0,1], "rulerday": [1,3],
-    "rhs": {1: [3,4,5], 2: [2,3]}
+    "rhs": {1: [3,4,5], 2: [2,3]}, "story":'Fourth dechiyah, בט"ו תקפ"ט: If _previous_ year is מעוברת, its <span class="story2">molad</span> is after noon on Tuesday, and is pushed forward two days because of <span class="story1">מולד זקן</span> and <span class="story0">לא אד"ו ראש</span>. The <span class="story1">previous year</span> would have been only 382 days long, too short. So Rosh Hashanah for this year is pushed forward one day to <span class="story0">Tuesday</span>.'
   },
   {"molad": [2,18,0], "num": 2180000, "calns": [2,2,2,9], "cols": [2,3], "rulerday": [2,2],
-    "rhs": {2: [2,3]}
+    "rhs": {2: [2,3]}, "story":'מולד זקן, <span class="story1">Monday</span> to <span class="story0">Tuesday</span>'
   },
   {"molad": [3,9,204], "num": 3090204, "calns": [3,3,3,9], "cols": [0,1,2], "rulerday": [3,0],
-    "rhs": {3: [0,1,2], 2: [3,4,5]}
+    "rhs": {3: [0,1,2], 2: [3,4,5]}, "story":'Third dechiyah, ג"ט ר"ד: If this year is פשוטה, the molad for _next_ year will be on <span class="story2">Shabbos after noon</span>, and is pushed forward two days because of <span class="story1">מולד זקן</span> and <span class="story0">לא אד"ו ראש</span>. The year would have been 356 days long, too long. So <span class="story2">this Rosh Hashanah</span> is pushed forward one day to <span class="story1">Wednesday</span>, and then another day because of <span class="story0">לא אד"ו ראש</span>.'
   },
   {"molad": [3,18,0], "num": 3180000, "calns": [3,3,3,10], "cols": [3], "rulerday": [2,3],
-    "rhs": {2: [3,4,5]}
+    "rhs": {2: [3,4,5]}, "story":'<span class="story2">Beginning of year</span> pushed forward to Thursday because of <span class="story1">מולד זקן</span> and <span class="story0">לא אד"ו ראש</span>.'
   },
   {"molad": [4,11,695], "num": 4110695, "calns": [3,3,3,11], "cols": [3], "rulerday": [4,0],
-    "rhs": {4: [0,1,2], 3: [3,4,5], 2:[4,5]}
+    "rhs": {4: [0,1,2], 3: [3,4,5], 2:[4,5]}, "story":'<span class="story2">Molad</span> at _end_ of this מעוברת year is ג"ט ר"ד (see above 3d 9h 204ch). It moves <span class="story1">two</span> <span class="story0">days</span> forward from Tuesday to Thursday, and the year becomes שלימה instead of חסירה. [Independent of the transition, the beginning of the year was already moving from <span class="story1">Wednesday</span> to <span class="story0">Thursday</span> because of לא אד"ו ראש.]'
   },
   {"molad": [5,9,204], "num": 5090204, "calns": [4,4,4,11], "cols": [0,1,2], "rulerday": [3,2],
-    "rhs": {3: [2,3], 2: [5]}
+    "rhs": {3: [2,3], 2: [5]}, "story":'If the year is פשוטה, the molad at the _end_ of the year goes after noon on <span class="story1">Monday</span>. It moves forward to <span class="story0">Tuesday</span> because of מולד זקן, and the year becomes שלימה instead of כסידרה.'
   },
   {"molad": [5,18,0], "num": 5180000, "calns": [5,5,5,12], "cols": [0,1,2,3], "rulerday": [2,5],
-    "rhs": {2: [5,6,0]}
+    "rhs": {2: [5,6,0]}, "story":'<span class="story2">Beginning of year</span> pushed forward to Shabbos because of <span class="story1">מולד זקן</span> and <span class="story0">לא אד"ו ראש</span>.'
   },
   {"molad": [6,0,408], "num": 6000408, "calns": [6,5,5,12], "cols": [0], "rulerday": [4,0],
-    "rhs": {4: [0,1,2], 3:[3,4,5], 2:[6,0]}
+    "rhs": {4: [0,1,2], 3:[3,4,5], 2:[6,0]}, "story":'<span class="story2">Molad at _end_ of this פשוטה year</span> is ג"ט ר"ד (see above 3d 9h 204ch) - where next year is also פשוטה. It moves <span class="story1">two</span> <span class="story0">days</span> forward from Tuesday to Thursday, and the year becomes שלימה instead of חסירה. [Independent of the transition, the beginning of the year was already moving from <span class="story1">Friday</span> to <span class="story0">Shabbos</span> because of לא אד"ו ראש.]'
   },
   {"molad": [6,9,204], "num": 6090204, "calns": [6,6,6,12], "cols": [1,2], "rulerday": [3,3],
-    "rhs": {3: [3,4,5], 2: [6,0]}
+    "rhs": {3: [3,4,5], 2: [6,0]}, "story":'If the year is פשוטה, the <span class="story2">molad at the _end_ of the year</span> goes after noon on Tuesday. It moves forward to Thursday because of <span class="story1">מולד זקן</span> and <span class="story0">לא אד"ו ראש</span>, and the year becomes שלימה instead of חסירה. [Independent of the transition, the beginning of the year was already moving from <span class="story1">Friday</span> to <span class="story0">Shabbos</span> because of לא אד"ו ראש.]'
   },
   {"molad": [6,20,491], "num": 6200491, "calns": [6,6,6,13], "cols": [3], "rulerday": [3,5],
-    "rhs": {3: [5,6,0], 2: [6,0]}
+    "rhs": {3: [5,6,0], 2: [6,0]}, "story":'If the year is מעוברת, the <span class="story2">molad at the _end_ of the year</span> goes after noon on Thursday. It moves forward to Shabbos because of <span class="story1">מולד זקן</span> and <span class="story0">לא אד"ו ראש</span>, and the year becomes שלימה instead of חסירה. [Independent of the transition, the beginning of the year was already moving from <span class="story1">Friday</span> to <span class="story0">Shabbos</span> because of לא אד"ו ראש.]'
   },
   {"molad": [7,18,0], "num": 7180000, "cols": [0,1,2,3], "calns": [0,7], "rulerday": [2,0],
-    "rhs": {2: [0,1,2]}
+    "rhs": {2: [0,1,2]}, "story":'This is a seven day cycle. When you get to the end of Friday, go back to the beginning of Shabbos at the top.'
   }
 ];
+
 
 /* build hash table for molad canonical numbers, save time */
 let moladI = [];
@@ -423,6 +433,7 @@ $(window).on("load", function(){
 		chkCalendar(molad2); // set correct calendar based on pointer
 		clearRHbar(); // if they had been set
         clearYear(); // if set
+		initStory();
       }
     });
     
@@ -446,10 +457,13 @@ $(window).on("load", function(){
 	}
   }
   
+  initStory();
+  
   flashclass("moladCol",1); // briefly flash moladCol column
   flasheltbyid("showCol",1);
+  
 
-});
+}); // end onload
 
 function flashelt(oelt,num) {
     var fclass = "flash"+num;
