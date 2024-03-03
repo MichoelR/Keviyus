@@ -240,23 +240,24 @@ h1 {
   border: blue solid 1px;
 }
 
-.story0 { /* markers within "story" text */
+/* removed for now; I don't think it's an improvement*/
+/*.story0 { /* markers within "story" text */
   padding-right: 2px;
   border-right: blue solid 3px;
   color: blue;
-}
+}*/ 
 
-.story1 {
+/*.story1 {
   padding-right: 2px;
   border-right: lightgreen solid 1.5px;
   color: lightgreen;
-}
+}*/
 
-.story2 {
+/*.story2 {
   padding-right: 2px;
   border-right: red solid 1.5px;
   color: red;
-}
+}*/
 
 .moladCtr {
   width: 95%;
