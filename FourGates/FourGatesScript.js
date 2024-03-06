@@ -285,6 +285,12 @@ function initStory() {
   $("#storyTransition").text("");
   $("#storyMolad").text("");
   $("#storyTxt").html('<i>Click on one of the molad times in the <span id="showCol"><b>Molad Tishrei</b></span> column, to see what happens at that time.</i>');
+  $(".moladDiv").each( function() {
+	let moladn = $(this).attr("moladn");
+    let story = tblMoladList[moladn].story;
+    let title = $("<div>"+story+"</div>").text();
+	$(this).attr("title",title);
+  })
 }
 
 function getMoladDec() { // finds decimal molad from position of pointer, 0-7
