@@ -9,57 +9,63 @@ h1 {
   font-size:50%;
 }
 
-.oidiv ol,li {
-  /* removing the default list counters/days: */
+.oidiv ol, li {
+  /* Removing the default list counters/days: */
   list-style-type: none;
 }
+
 .oidiv ol {
-  /* resetting the counter so every <ol>
+  /* Resetting the counter so every <ol>
      has an independent count: */
-  counter-reset: day -1 sixhr;
+  counter-reset: day -1 /* Resets both counters */
 }
+
 .oidiv li {
-  /* 'real world' measurements are perhaps not
+  /* 'Real world' measurements are perhaps not
      entirely faithful on screen: */
   height: 1.5px;
   border-top: 1px solid #000;
-  /* including the border in the height of the element: */
+  /* Including the border in the height of the element: */
   box-sizing: border-box;
   width: 1em;
-  /* incrementing the counter: */
-  counter-increment: sixhr ;
-  /* to position the counter relative
-     to the <li>: */
+  /* Incrementing the counter: */
+  /*counter-increment: sixhr;/* /* Incrementing the sixhr counter */
+  /* To position the counter relative to the <li>: */
   position: relative;
   border-left: 2px solid #000;
 }
+
+.oidiv li:nth-child(24n+1) { /* initialize hour counter */
+  counter-reset: sixhr -6;
+}
+
 .oidiv li:nth-child(6n-5) {
-  /* longer mark for every sixth tick: */
+  /* Longer mark for every sixth tick: */
+  counter-increment: sixhr 6;
   width: 1.5em;
-  /* incrementing the counter: */
-  counter-increment: sixhr ;
 }
+
 .oidiv li:nth-child(24n-23) {
-  /* even longer mark for every twenty-fourth tick: */
+  /* Even longer mark for every twenty-fourth tick: */
   width: 3em;
-  /* incrementing the counter: */
-  counter-increment: day ;
-  counter-reset: sixhr ;
+  counter-increment: day sixhr 6; /* Incrementing the day counter */
 }
-/* preventing a 'tail' on the <ol> from the
+
+/* Preventing a 'tail' on the <ol> from the
    height of the last <li> (the counter is
    displayed at the top, not the bottom): */
 .oidiv li:last-child {
   height: 0;
 }
+
 .oidiv li:nth-child(6n-5)::after {
-  /* positioning the pseudo-element that
+  /* Positioning the pseudo-element that
      contains the sixhr counter: */
   position: absolute;
-  /* vertically-centering it alongside the
+  /* Vertically-centering it alongside the
      top border: */
   top: -0.5em;
-  /* moving it the full width of the element,
+  /* Moving it the full width of the element,
      outside of the right side of the element: */
   left: 100%;
   height: 1em;
@@ -67,17 +73,18 @@ h1 {
   width: 2em;
   text-align: center;
   font-size: 40%;
-  /* specifying the counter to use: */
-  content: counter(sixhr) "h";
+  /* Specifying the counter to use: */
+  content: counter(sixhr) "h"; /* Displaying the sixhr counter */
 }
+
 .oidiv li:nth-child(24n-23)::after {
-  /* positioning the pseudo-element that
+  /* Positioning the pseudo-element that
      contains the day counter: */
   position: absolute;
-  /* vertically-centering it alongside the
+  /* Vertically-centering it alongside the
      top border: */
   top: -0.5em;
-  /* moving it the full width of the element,
+  /* Moving it the full width of the element,
      outside of the right side of the element: */
   left: 100%;
   height: 1em;
@@ -85,8 +92,8 @@ h1 {
   width: 2em;
   text-align: center;
   font-size: 70%;
-  /* specifying the counter to use: */
-  content: counter(day) "d";
+  /* Specifying the counter to use: */
+  content: counter(day) "d"; /* Displaying the day counter */
 }
 
 .oidiv .li18h {
@@ -519,4 +526,3 @@ h1 {
 	animation-duration: 1s;
 	animation-iteration-count: 3;
 }
-
