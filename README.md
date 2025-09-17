@@ -19,7 +19,7 @@ The second is Keviyus.htm, which is a web page equivalent of the 14 keviyuyos ch
 Orach Chaim 428. It shows every detail of the 14 different Jewish calendars, along with some
 convenient aids to visualization.
 The third is Four Gates.htm, a rendering of the arba'ah sh'arim also described in the Tur.
-These can be viewed directly here at
+These can be viewed directly here at  
 https://michoelr.github.io/Keviyus/Keviyus.htm 
 https://michoelr.github.io/Keviyus/FourGates/FourGates.htm
 https://michoelr.github.io/Keviyus/Calculator.htm
