@@ -20,9 +20,9 @@ Orach Chaim 428. It shows every detail of the 14 different Jewish calendars, alo
 convenient aids to visualization.
 The third is Four Gates.htm, a rendering of the arba'ah sh'arim also described in the Tur.
 These can be viewed directly here at  
-https://michoelr.github.io/Keviyus/Keviyus.htm 
-https://michoelr.github.io/Keviyus/FourGates/FourGates.htm
-https://michoelr.github.io/Keviyus/Calculator.htm
+https://michoelr.github.io/Keviyus/Keviyus.htm  
+https://michoelr.github.io/Keviyus/FourGates/FourGates.htm  
+https://michoelr.github.io/Keviyus/Calculator.htm  
 
 The second presentation is The keviyus page, which describes some of the features of the Keviyus page.
 The third presentation is Sidros, which gives more detail on the process of assigned the weekly Torah readings.
